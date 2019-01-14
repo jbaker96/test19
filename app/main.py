@@ -41,7 +41,7 @@ def start():
     """
     print(json.dumps(data))
 
-    color = "#00FF00"
+    color = "gold"
 
     return start_response(color)
 
@@ -59,8 +59,8 @@ def move():
     directions = ['up', 'down', 'left', 'right']
     direction = random.choice(directions)
 
-    return move_response('left')
-    
+    return "right"##move_response('left')
+
 
 @bottle.post('/end')
 def end():
