@@ -24,10 +24,6 @@ def static(path):
 
 @bottle.post('/ping')
 def ping():
-    """
-    A keep-alive endpoint used to prevent cloud application platforms,
-    such as Heroku, from sleeping the application instance.
-    """
     return ping_response()
 
 @bottle.post('/start')
@@ -42,8 +38,9 @@ def start():
     print(json.dumps(data))
 
     color = "gold"
+    head_type = "tongue"
 
-    return start_response(color)
+    return start_response(color, head_type)
 
 
 @bottle.post('/move')
