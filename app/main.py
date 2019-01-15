@@ -46,7 +46,7 @@ def move():
     direction = random.choice(directions)
 
 
-    if height = 20:
+    if height == 20:
         return move_response('down')
     return move_response('right')
 
