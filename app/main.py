@@ -30,32 +30,39 @@ def start():
     return start_response(color)
 
 
+
+
+
+
+
+
 @bottle.post('/move')
 def move():
     data = bottle.request.json
-
-    """
-    TODO: Using the data from the endpoint request object, your
-            snake AI must choose a direction to move in.
-    """
-    print(json.dumps(data))
+    height = data.board.height
+    width = data.board.width
 
     directions = ['up', 'down', 'left', 'right']
     direction = random.choice(directions)
 
-    return move_response('down')
+
+    if height = 20:
+        return move_response('down')
+    return move_response('right')
+
+
+
+
+
+
+
+
 
 
 @bottle.post('/end')
 def end():
     data = bottle.request.json
-
-    """
-    TODO: If your snake AI was stateful,
-        clean up any stateful objects here.
-    """
     print(json.dumps(data))
-
     return end_response()
 
 # Expose WSGI app (so gunicorn can find it)
