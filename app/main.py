@@ -25,7 +25,7 @@ def start():
     data = bottle.request.json
     print(json.dumps(data))
 
-    color = "cyan"
+    color = "gold"
 
     return start_response(color)
 
@@ -39,15 +39,16 @@ def start():
 @bottle.post('/move')
 def move():
     data = bottle.request.json
-    height = data.board.height #['board']['height']
+    height = data['board']['height']
     width = data['board']['width']
+    me = data['you']['body']
+    HeadX = me[0]['x']
+    HeadY = me[0]['y']
 
-    directions = ['up', 'down', 'left', 'right']
 
-
-    if height == 20:
-        return move_response('down')
-    return move_response('right')
+    if HeadY > 10:
+        return move_response('left')
+    return move_response('down')
 
 
 
