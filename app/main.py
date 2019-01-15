@@ -39,11 +39,10 @@ def start():
 @bottle.post('/move')
 def move():
     data = bottle.request.json
-    height = data['board']['height']
+    height = data.board.height #['board']['height']
     width = data['board']['width']
 
     directions = ['up', 'down', 'left', 'right']
-    direction = random.choice(directions)
 
 
     if height == 20:
