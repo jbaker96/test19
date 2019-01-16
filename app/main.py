@@ -56,17 +56,17 @@ def move():
         walls.extend(a)
         w = w + 1
     ####################ME##########################
-#    me = data['you']['body']
-#    health = me['health']
-#    length = len(me)
-#    m = 1
-#    HeadX = me[0]['x']
-##    HeadY = me[0]['y']
- #   if health == 100:
-#        m = 0
-#    for i in range(length) - m:
-#        a = [[me[i]['x]'],me[i]['y']]]
-#        walls.extend(a)
+    me = data['you']['body']
+    health = me['health']
+    length = len(me)
+    m = 1
+    HeadX = me[0]['x']
+    HeadY = me[0]['y']
+    if health == 100:
+        m = 0
+    for i in range(length) - m:
+        a = [[me[i]['x]'],me[i]['y']]]
+        walls.extend(a)
     ####################OTHERS######################
 #    others = data['board']['snakes']
 #    for i in range(len(others)):
