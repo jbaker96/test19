@@ -78,7 +78,7 @@ def move():
 #            a = [[snake['body'][j]['x'], snake['body'][j]['y']]]
 #            walls.extend(a)
     ####################TEST########################
-    while i < 100:
+    #while i < 100:
         directions = [[0, -1],[0,1],[-1, 0],[1,0]]
         direction = random.choice(directions)
         
