@@ -64,9 +64,9 @@ def move():
     HeadY = me[0]['y']
     if health == 100:
         m = 0
-    for i in range(length) - m:
-        a = [[me[i]['x]'],me[i]['y']]]
-        walls.extend(a)
+#    for i in range(length) - m:
+#        a = [[me[i]['x]'],me[i]['y']]]
+#        walls.extend(a)
     ####################OTHERS######################
 #    others = data['board']['snakes']
 #    for i in range(len(others)):
