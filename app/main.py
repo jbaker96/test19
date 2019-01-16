@@ -56,27 +56,27 @@ def move():
         walls.extend(a)
         w = w + 1
     ####################ME##########################
-    me = data['you']['body']
-    health = me['health']
-    length = len(me)
-    m = 1
-    HeadX = me[0]['x']
-    HeadY = me[0]['y']
-    if health == 100:
-        m = 0
-    for i in range(length) - m:
-        a = [[me[i]['x]'],me[i]['y']]]
-        walls.extend(a)
+#    me = data['you']['body']
+#    health = me['health']
+#    length = len(me)
+#    m = 1
+#    HeadX = me[0]['x']
+##    HeadY = me[0]['y']
+ #   if health == 100:
+#        m = 0
+#    for i in range(length) - m:
+#        a = [[me[i]['x]'],me[i]['y']]]
+#        walls.extend(a)
     ####################OTHERS######################
-    others = data['board']['snakes']
-    for i in range(len(others)):
-        o = 1
-        snake = others[i]
-        if snake['health'] == 100:
-            o = 0
-        for j in range(len(snake['body']) - o):
-            a = [[snake['body'][j]['x'], snake['body'][j]['y']]]
-            walls.extend(a)
+#    others = data['board']['snakes']
+#    for i in range(len(others)):
+#        o = 1
+#        snake = others[i]
+#        if snake['health'] == 100:
+#            o = 0
+#        for j in range(len(snake['body']) - o):
+#            a = [[snake['body'][j]['x'], snake['body'][j]['y']]]
+#            walls.extend(a)
     ####################TEST########################
     #while i < 100:
     directions = [[0, -1],[0,1],[-1, 0],[1,0]]
