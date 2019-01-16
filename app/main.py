@@ -37,24 +37,24 @@ def move():
     h = 0
     w = 0
 
-    while (h<height):
-        a = [[-1, h]]
-        walls.extend(a)
-        h = h + 1
-    h = 0
-    while (h<height):
-        a = [[width, h]]
-        walls.extend(a)
-        h = h + 1
-    while (w<width):
-        a = [[w, -1]]
-        walls.extend(a)
-        w = w + 1
-    w = 0
-    while (w<width):
-        a = [[w, height]]
-        walls.extend(a)
-        w = w + 1
+#    while (h<height):
+#        a = [[-1, h]]
+#        walls.extend(a)
+#        h = h + 1
+#    h = 0
+#    while (h<height):
+#        a = [[width, h]]
+#        walls.extend(a)
+#        h = h + 1
+##    while (w<width):
+ #       a = [[w, -1]]
+ #       walls.extend(a)
+#        w = w + 1
+#    w = 0
+#    while (w<width):
+#        a = [[w, height]]
+#        walls.extend(a)
+#        w = w + 1
     ####################ME##########################
 #    me = data['you']['body']
 #    health = me['health']
