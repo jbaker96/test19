@@ -82,7 +82,7 @@ def move():
         directions = [[0, -1],[0,1],[-1, 0],[1,0]]
         direction = random.choice(directions)
         
-        if [direction[0]+HeadX, direction[1]+HeadY] not in walls:
+        if [[direction[0]+HeadX, direction[1]+HeadY]] not in walls:
             if direction == directions[0]:
                 return move_response('up')
             if direction == directions[1]:
