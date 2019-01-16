@@ -24,38 +24,76 @@ def ping():
 def start():
     data = bottle.request.json
     print(json.dumps(data))
-
     color = "gold"
-
     return start_response(color)
-
-
-
-
-
-
-
 
 @bottle.post('/move')
 def move():
     data = bottle.request.json
-    height = data['board']['height']
-    width = data['board']['width']
+###################WALLS##############################
+    height = data['board']['height'] - 1
+    width = data['board']['width'] - 1
+    walls = []
+    h = 0
+    w = 0
+
+    while (h<height):
+        a = [[-1, h]]
+        walls.extend(a)
+        h = h + 1
+    h = 0
+    while (h<height):
+        a = [[width, h]]
+        walls.extend(a)
+        h = h + 1
+    while (w<width):
+        a = [[w, -1]]
+        walls.extend(a)
+        w = w + 1
+    w = 0
+    while (w<width):
+        a = [[w, height]]
+        walls.extend(a)
+        w = w + 1
+    ####################ME##########################
     me = data['you']['body']
+    health = me['health']
+    length = len(me)
+    m = 1
     HeadX = me[0]['x']
     HeadY = me[0]['y']
-
-
-    if HeadY > 10:
-        return move_response('left')
-    return move_response('down')
-
-
-
-
-
-
-
+    if health == 100:
+        m = 0
+    for i in range(length) - m:
+        a = [[me[i]['x]'],me[i]['y']]]
+        walls.extend(a)
+    ####################OTHERS######################
+    others = data['board']['snakes']
+    for i in range(len(others)):
+        o = 1
+        snake = others[i]
+        if snake['health'] == 100:
+            o = 0
+        for j in range(len(snake['body']) - o):
+            a = [[snake['body'][j]['x'], snake['body'][j]['y']]]
+            walls.extend(a)
+    ####################TEST########################
+    while i < 100:
+        directions = [[0, -1],[0,1],[-1, 0],[1,0]]
+        direction = random.choice(directions)
+        
+        if [direction[0]+HeadX, direction[1]+HeadY] not in walls:
+            if direction == directions[0]:
+                return move_response('up')
+            if direction == directions[1]:
+                return move_response('down')
+            if direction == directions[2]:
+                return move_response('left')
+            if direction == directions[3]:
+                return move_response('right')
+        i = i + 1
+    ####################TURN_0######################
+    
 
 
 
@@ -67,7 +105,6 @@ def end():
 
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()
-
 if __name__ == '__main__':
     bottle.run(
         application,
