@@ -80,18 +80,22 @@ def move():
     ####################TEST########################
     directions = [[0, -1],[0,1],[-1, 0],[1,0]]
     direction = random.choice(directions)
-    
-    if [[direction[0]+HeadX, direction[1]+HeadY]] not in walls:
-        if direction == [0,-1]:
-            return move_response('up')
-        if direction == [0,1]:
-            return move_response('down')
-        if direction == [-1,0]:
-            return move_response('left')
-        if direction == [1,0]:
-            return move_response('right')
-    else
-        directions.remove(direction)
+    i = 1
+    while i < 5
+        if [direction[0]+HeadX, direction[1]+HeadY] not in walls:
+            if direction == [0,-1]:
+                return move_response('up')
+            if direction == [0,1]:
+                return move_response('down')
+            if direction == [-1,0]:
+                return move_response('left')
+            if direction == [1,0]:
+                return move_response('right')
+        else
+            directions.remove(direction)
+        i = i + 1
+        
+    return move_response('left')
     ####################TURN_0######################
     
 
