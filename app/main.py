@@ -36,21 +36,21 @@ def move():
     walls = []
     h = 0
     w = 0
-    while (h<height):
+    while (h<=height):
         a = [[-1, h]]
         walls.extend(a)
         h = h + 1
     h = 0
-    while (h<height):
+    while (h<=height):
         a = [[width+1, h]]
         walls.extend(a)
         h = h + 1
-    while (w<width):
+    while (w<=width):
         a = [[w, -1]]
         walls.extend(a)
         w = w + 1
     w = 0
-    while (w<width):
+    while (w<=width):
         a = [[w, height+1]]
         walls.extend(a)
         w = w + 1
