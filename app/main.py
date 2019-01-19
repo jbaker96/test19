@@ -36,7 +36,6 @@ def move():
     walls = []
     h = 0
     w = 0
-
     while (h<height):
         a = [[-1, h]]
         walls.extend(a)
@@ -77,10 +76,12 @@ def move():
         for j in range(len(snake['body']) - o):
             a = [[snake['body'][j]['x'], snake['body'][j]['y']]]
             walls.extend(a)
+
+
     ####################TEST########################
     directions = [[0,-1],[0,1],[-1,0],[1,0]]
     i = 1
-    while i < 5:
+    while i < 20:
         direction = random.choice(directions)
         if [direction[0]+HeadX, direction[1]+HeadY] not in walls:
             if direction == [0,-1]:
@@ -91,8 +92,8 @@ def move():
                 return move_response('left')
             if direction == [1,0]:
                 return move_response('right')
-        else:
-            directions.remove(direction)
+        #else:
+        #    directions.remove(direction)
         i = i + 1
 
     return move_response('left')
