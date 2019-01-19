@@ -69,10 +69,10 @@ def move():
     ####################OTHERS######################
     others = data['board']['snakes']
     for i in range(len(others)):
-        o = 1
+        o = 0
         snake = others[i]
-        if snake['health'] == 100:
-            o = 0
+        #if snake['health'] == 100:
+        #    o = 0
         for j in range(len(snake['body']) - o):
             a = [[snake['body'][j]['x'], snake['body'][j]['y']]]
             walls.extend(a)
