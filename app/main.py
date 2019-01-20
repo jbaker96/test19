@@ -8,7 +8,7 @@ from api import ping_response, start_response, move_response, end_response
 @bottle.route('/')
 def index():
     return '''
-    Random Moves.
+    Testing.
     '''
 
 @bottle.route('/static/<path:path>')
@@ -23,7 +23,7 @@ def ping():
 def start():
     data = bottle.request.json
     print(json.dumps(data))
-    color = "purple"
+    color = "gold"
     return start_response(color)
 
 @bottle.post('/move')
