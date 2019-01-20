@@ -8,8 +8,7 @@ from api import ping_response, start_response, move_response, end_response
 @bottle.route('/')
 def index():
     return '''
-    Battlesnake documentation can be found at
-       <a href="https://docs.battlesnake.io">https://docs.battlesnake.io</a>.
+    Random Moves.
     '''
 
 @bottle.route('/static/<path:path>')
@@ -24,7 +23,7 @@ def ping():
 def start():
     data = bottle.request.json
     print(json.dumps(data))
-    color = "gold"
+    color = "purple"
     return start_response(color)
 
 @bottle.post('/move')
