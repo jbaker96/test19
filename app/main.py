@@ -80,14 +80,14 @@ def move():
     FoodList = data['board']['food']
     
     while (j < len(FoodList)):
-    #    b = abs(FoodList[j]['x'] - HeadX) + abs(FoodList[j]['y'] - HeadY)  
-    #    if j = 0:
-    #        minval = b
-    #        counter = j
-    #    if b < minval
-    #        counter = j
-    #        minval = b
-    #    
+        b = abs(FoodList[j]['x'] - HeadX) + abs(FoodList[j]['y'] - HeadY)  
+        if j = 0:
+            minval = b
+            counter = j
+        if b < minval:
+            counter = j
+            minval = b
+        
         j = j + 1
     
     #FoodX = FoodList[counter]['x']
