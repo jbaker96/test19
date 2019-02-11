@@ -96,20 +96,20 @@ def move():
     GoalX = FoodX - HeadX
     GoalY = FoodY - HeadY
 
-    if abs(GoalX) >= abs(GoalY)
-        if GoalY > 0
-            if [HeadX, HeadY+1] not in walls:
-                return move_response('down')
-        if GoalY < 0
-            if [HeadX, HeadY-1] not in walls:
-                return move_response('up')
-    else
-        if GoalX > 0
-            if [HeadX+1, HeadY] not in walls:
-                return move_response('right')
-        if GoalX < 0
-            if [HeadX-1, HeadY] not in walls:
-                return move_response('left')
+    #if abs(GoalX) >= abs(GoalY)
+    #    if GoalY > 0
+    #        if [HeadX, HeadY+1] not in walls:
+    #            return move_response('down')
+    #    if GoalY < 0
+    #        if [HeadX, HeadY-1] not in walls:
+    #            return move_response('up')
+    #else
+    #    if GoalX > 0
+    #        if [HeadX+1, HeadY] not in walls:
+    #            return move_response('right')
+    #    if GoalX < 0
+    #        if [HeadX-1, HeadY] not in walls:
+    #            return move_response('left')
     
     
     
