@@ -81,7 +81,7 @@ def move():
     
     while (j < len(FoodList)):
         b = abs(FoodList[j]['x'] - HeadX) + abs(FoodList[j]['y'] - HeadY)  
-        if j = 0:
+        if j == 0:
             minval = b
             counter = j
         if b < minval:
