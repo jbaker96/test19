@@ -60,6 +60,8 @@ def move():
     m = 1
     HeadX = me[0]['x']
     HeadY = me[0]['y']
+    TailX = me[length-1]['x']
+    TailY = me[length-1]['y']
     if health == 100:
         m = 0
     for i in range((length) - m):
@@ -68,17 +70,49 @@ def move():
     ####################OTHERS######################
     others = data['board']['snakes']
     for i in range(len(others)):
-        o = 0
         snake = others[i]
-        #if snake['health'] == 100:
-        #    o = 0
-        for j in range(len(snake['body']) - o):
+        for j in range(len(snake['body'])):
             a = [[snake['body'][j]['x'], snake['body'][j]['y']]]
             walls.extend(a)
-
-
-    ####################TEST########################
+    ####################FIND FOOD########################
     directions = [[0,-1],[0,1],[-1,0],[1,0]]
+    j = 0
+    FoodList = data['board']['food']
+    
+    while (j < len(FoodList)):
+        b = abs(FoodList[j]['x'] - HeadX) + abs(FoodList[j]['y'] - HeadY)  
+        if j = 0:
+            minval = b
+            counter = j
+        if b < minval
+            counter = j
+            minval = b
+        
+        j = j + 1
+    
+    FoodX = FoodList[counter]['x']
+    FoodY = FoodList[counter]['y']
+
+    GoalX = FoodX - HeadX
+    GoalY = FoodY - HeadY
+
+    if abs(GoalX) >= abs(GoalY)
+        if GoalY > 0
+            if [HeadX, HeadY+1] not in walls:
+                return move_response('down')
+        if GoalY < 0
+            if [HeadX, HeadY-1] not in walls:
+                return move_response('up')
+    else
+        if GoalX > 0
+            if [HeadX+1, HeadY] not in walls:
+                return move_response('right')
+        if GoalX < 0
+            if [HeadX-1, HeadY] not in walls:
+                return move_response('left')
+    
+    
+    
     i = 1
     while i < 20:
         direction = random.choice(directions)
