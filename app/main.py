@@ -96,7 +96,7 @@ def move():
     GoalX = FoodX - HeadX
     GoalY = FoodY - HeadY
 
-    if abs(GoalX) >= abs(GoalY):
+    if abs(GoalX) <= abs(GoalY):
         if GoalY > 0:
             if [HeadX, HeadY+1] not in walls:
                 return move_response('down')
