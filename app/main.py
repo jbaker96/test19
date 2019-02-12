@@ -160,11 +160,7 @@ def move():
                 return move_response('left')
             if direction == [1,0]:
                 return move_response('right')
-        else:
-            directions.remove(direction)
         i = i + 1
-
-    return move_response('left')
     ####################TURN_0######################
     
 
