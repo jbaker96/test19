@@ -106,7 +106,7 @@ def move():
             elif GoalX < 0:
                 if [HeadX-1, HeadY] not in walls:
                     return move_response('left')
-            else if [HeadX, HeadY-1] not in walls:
+            elif [HeadX, HeadY-1] not in walls:
                 return move_response('up')
 
         if GoalY < 0:
@@ -118,7 +118,7 @@ def move():
             elif GoalX < 0:
                 if [HeadX-1, HeadY] not in walls:
                     return move_response('left')
-            else if [HeadX, HeadY+1] not in walls:
+            elif [HeadX, HeadY+1] not in walls:
                 return move_response('down')
 
     else:
@@ -131,7 +131,7 @@ def move():
             elif GoalY < 0:
                 if [HeadX, HeadY-1] not in walls:
                     return move_response('up')
-            else if [HeadX-1, HeadY] not in walls:
+            elif [HeadX-1, HeadY] not in walls:
                 return move_response('left')
 
         if GoalX < 0:
@@ -143,7 +143,7 @@ def move():
             elif GoalY < 0:
                 if [HeadX, HeadY-1] not in walls:
                     return move_response('up')
-            else if [HeadX+1, HeadY] not in walls:
+            elif [HeadX+1, HeadY] not in walls:
                 return move_response('right')
     
     
