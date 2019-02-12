@@ -79,6 +79,21 @@ def move():
     j = 0
     FoodList = data['board']['food']
     
+    if len(FoodList) == 0:
+        i = 1
+        while i < 20:
+            direction = random.choice(directions)
+            if [direction[0]+HeadX, direction[1]+HeadY] not in walls:
+                if direction == [0,-1]:
+                    return move_response('up')
+                if direction == [0,1]:
+                    return move_response('down')
+                if direction == [-1,0]:
+                    return move_response('left')
+                if direction == [1,0]:
+                    return move_response('right')
+            i = i + 1
+
     while (j < len(FoodList)):
         b = abs(FoodList[j]['x'] - HeadX) + abs(FoodList[j]['y'] - HeadY)  
         if j == 0:
@@ -89,7 +104,7 @@ def move():
             minval = b
         
         j = j + 1
-    
+
     FoodX = FoodList[counter]['x']
     FoodY = FoodList[counter]['y']
 
