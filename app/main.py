@@ -23,7 +23,7 @@ def ping():
 def start():
     data = bottle.request.json
     print(json.dumps(data))
-    color = "red"
+    color = "gold"
     return start_response(color)
 
 @bottle.post('/move')
