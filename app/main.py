@@ -67,7 +67,7 @@ def move():
     m = 2
     if health == 100:
         m = 1
-    for i in range(length - m):
+    for i in range(length - 2):
         a = [[me[i]['x'], me[i]['y']]]
         walls.extend(a)
 
