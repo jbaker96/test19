@@ -23,16 +23,18 @@ def ping():
 def start():
     data = bottle.request.json
     print(json.dumps(data))
-    color = "gold"
+    color = "orange"
     return start_response(color)
 
 @bottle.post('/move')
 def move():
     data = bottle.request.json
+
 ###################WALLS##############################
     height = data['board']['height'] - 1
     width = data['board']['width'] - 1
     walls = []
+    enemyheads = []
     h = 0
     w = 0
     while (h<=height):
@@ -53,6 +55,7 @@ def move():
         a = [[w, height+1]]
         walls.extend(a)
         w = w + 1
+
     ####################ME##########################
     me = data['you']['body']
     health = data['you']['health']
@@ -67,6 +70,7 @@ def move():
     for i in range((length) - m):
         a = [[me[i]['x'],me[i]['y']]]
         walls.extend(a)
+
     ####################OTHERS######################
     others = data['board']['snakes']
     for i in range(len(others)):
@@ -74,43 +78,35 @@ def move():
         for j in range(len(snake['body'])):
             a = [[snake['body'][j]['x'], snake['body'][j]['y']]]
             walls.extend(a)
-    ####################FIND FOOD########################
-    directions = [[0,-1],[0,1],[-1,0],[1,0]]
-    j = 0
+            if j == 0:
+                enemyheads.extend(a)
+
+    ####################FIND FOOD OR TAIL########################
     FoodList = data['board']['food']
-    
-    if len(FoodList) == 0:
-        i = 1
-        while i < 20:
-            direction = random.choice(directions)
-            if [direction[0]+HeadX, direction[1]+HeadY] not in walls:
-                if direction == [0,-1]:
-                    return move_response('up')
-                if direction == [0,1]:
-                    return move_response('down')
-                if direction == [-1,0]:
-                    return move_response('left')
-                if direction == [1,0]:
-                    return move_response('right')
-            i = i + 1
 
-    while (j < len(FoodList)):
-        b = abs(FoodList[j]['x'] - HeadX) + abs(FoodList[j]['y'] - HeadY)  
-        if j == 0:
-            minval = b
-            counter = j
-        if b < minval:
-            counter = j
-            minval = b
-        
-        j = j + 1
+    if health > 50 or len(FoodList) == 0:
+        GoalX = TailX - HeadX
+        GoalY = TailY - TailX
+    else:
+        j = 0
+        while (j < len(FoodList)):
+            b = abs(FoodList[j]['x'] - HeadX) + abs(FoodList[j]['y'] - HeadY)  
+            if j == 0:
+                minval = b
+                counter = j
+            if b < minval:
+                counter = j
+                minval = b
+            
+            j = j + 1
 
-    FoodX = FoodList[counter]['x']
-    FoodY = FoodList[counter]['y']
+        FoodX = FoodList[counter]['x']
+        FoodY = FoodList[counter]['y']
 
-    GoalX = FoodX - HeadX
-    GoalY = FoodY - HeadY
+        GoalX = FoodX - HeadX
+        GoalY = FoodY - HeadY
 
+    ########################MOVEMENT#############################
     if abs(GoalX) <= abs(GoalY):
         if GoalY > 0:
             if [HeadX, HeadY+1] not in walls:
@@ -161,25 +157,20 @@ def move():
             elif [HeadX+1, HeadY] not in walls:
                 return move_response('right')
     
-    
-    
-    i = 1
-    while i < 20:
-        direction = random.choice(directions)
-        if [direction[0]+HeadX, direction[1]+HeadY] not in walls:
-            if direction == [0,-1]:
-                return move_response('up')
-            if direction == [0,1]:
-                return move_response('down')
-            if direction == [-1,0]:
-                return move_response('left')
-            if direction == [1,0]:
-                return move_response('right')
-        i = i + 1
-    ####################TURN_0######################
-    
-
-
+    #i = 1
+    #directions = [[0,-1],[0,1],[-1,0],[1,0]]
+    #while i < 20:
+    #    direction = random.choice(directions)
+    #    if [direction[0]+HeadX, direction[1]+HeadY] not in walls:
+    #        if direction == [0,-1]:
+    #            return move_response('up')
+    #        if direction == [0,1]:
+    #            return move_response('down')
+    #        if direction == [-1,0]:
+    #            return move_response('left')
+    #        if direction == [1,0]:
+    #            return move_response('right')
+    #    i = i + 1
 
 @bottle.post('/end')
 def end():
