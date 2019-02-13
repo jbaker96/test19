@@ -63,8 +63,8 @@ def move():
     #m = 1
     HeadX = me[0]['x']
     HeadY = me[0]['y']
-    TailX = me[length-1]['x']
-    TailY = me[length-1]['y']
+    TailX = me[length]['x']
+    TailY = me[length]['y']
     #if health == 100:
     #    m = 0
     for i in range(length - 1):
