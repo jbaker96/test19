@@ -76,7 +76,7 @@ def move():
     others = data['board']['snakes']
     for i in range(len(others)):
         if others['id'] == ID:
-            i = i + 1
+            continue
         snake = others[i]
         for j in range(len(snake['body'])):
             a = [[snake['body'][j]['x'], snake['body'][j]['y']]]
