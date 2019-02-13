@@ -60,13 +60,13 @@ def move():
     me = data['you']['body']
     health = data['you']['health']
     length = len(me)
-    m = 2
     HeadX = me[0]['x']
     HeadY = me[0]['y']
-    TailX = me[length]['x']
-    TailY = me[length]['y']
+    TailX = me[length-1]['x']
+    TailY = me[length-1]['y']
+    m = 1
     if health == 100:
-        m = 1
+        m = 0
     for i in range(length - m):
         a = [[me[i]['x'], me[i]['y']]]
         walls.extend(a)
@@ -86,7 +86,7 @@ def move():
 
     if health > 50 or len(FoodList) == 0:
         GoalX = TailX - HeadX
-        GoalY = TailY - TailY
+        GoalY = TailY - HeadY
     else:
         j = 0
         while (j < len(FoodList)):
