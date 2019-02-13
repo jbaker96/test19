@@ -58,22 +58,25 @@ def move():
 
     ####################ME##########################
     me = data['you']['body']
+    ID = data['you']['id']
     health = data['you']['health']
     length = len(me)
     HeadX = me[0]['x']
     HeadY = me[0]['y']
     TailX = me[length-1]['x']
     TailY = me[length-1]['y']
-    m = 2
+    m = 1
     if health == 100:
-        m = 1
-    for i in range(length - 2):
+        m = 0
+    for i in range(length - 1):
         a = [[me[i]['x'], me[i]['y']]]
         walls.extend(a)
 
     ####################OTHERS######################
     others = data['board']['snakes']
     for i in range(len(others)):
+        if others['id'] == ID:
+            i = i + 1
         snake = others[i]
         for j in range(len(snake['body'])):
             a = [[snake['body'][j]['x'], snake['body'][j]['y']]]
@@ -111,7 +114,7 @@ def move():
         if GoalY > 0:
             if [HeadX, HeadY+1] not in walls:
                 return move_response('down')
-            elif GoalX > 0:
+            elif GoalX >= 0:
                 if [HeadX+1, HeadY] not in walls:
                     return move_response('right')
             elif GoalX < 0:
@@ -123,7 +126,7 @@ def move():
         if GoalY < 0:
             if [HeadX, HeadY-1] not in walls:
                 return move_response('up')
-            elif GoalX > 0:
+            elif GoalX >= 0:
                 if [HeadX+1, HeadY] not in walls:
                     return move_response('right')
             elif GoalX < 0:
@@ -136,7 +139,7 @@ def move():
         if GoalX > 0:
             if [HeadX+1, HeadY] not in walls:
                 return move_response('right')
-            elif GoalY > 0:
+            elif GoalY >= 0:
                 if [HeadX, HeadY+1] not in walls:
                     return move_response('down')
             elif GoalY < 0:
@@ -148,7 +151,7 @@ def move():
         if GoalX < 0:
             if [HeadX-1, HeadY] not in walls:
                 return move_response('left')
-            elif GoalY > 0:
+            elif GoalY >= 0:
                 if [HeadX, HeadY+1] not in walls:
                     return move_response('down')
             elif GoalY < 0:
