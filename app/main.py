@@ -60,13 +60,13 @@ def move():
     me = data['you']['body']
     health = data['you']['health']
     length = len(me)
-    m = 2
+    m = 1
     HeadX = me[0]['x']
     HeadY = me[0]['y']
     TailX = me[length-1]['x']
     TailY = me[length-1]['y']
     if health == 100:
-        m = 1
+        m = 0
     for i in range(length - m):
         a = [[me[i]['x'], me[i]['y']]]
         walls.extend(a)
