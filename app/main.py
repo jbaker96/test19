@@ -21,7 +21,7 @@ def ping():
 
 @bottle.post('/start')
 def start():
-    color = "#00FF27"
+    color = "#FF0000"
     #headType = "tongue"
     #tailType = "curled"
     return start_response(color)#, headType, tailType)
