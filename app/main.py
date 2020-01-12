@@ -13,8 +13,6 @@ def index():
 
 @bottle.route('/static/<path:path>')
 def static(path):
-
-
     return bottle.static_file(path, root='static/')
 
 @bottle.post('/ping')
@@ -24,7 +22,7 @@ def ping():
 @bottle.post('/start')
 def start():
     data = bottle.request.json
-    print(json.dumps(data))
+    #print(json.dumps(data))
     color = "FFDD33"
     headType = "tongue"
     tailType = "curled"
@@ -33,7 +31,7 @@ def start():
 @bottle.post('/move')
 def move():
     data = bottle.request.json
-    print(json.dumps(data))
+    #print(json.dumps(data))
 
     directions = ['up', 'down', 'left', 'right']
     direction = random.choice(directions)
