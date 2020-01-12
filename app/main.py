@@ -13,6 +13,8 @@ def index():
 
 @bottle.route('/static/<path:path>')
 def static(path):
+
+
     return bottle.static_file(path, root='static/')
 
 @bottle.post('/ping')
@@ -29,10 +31,16 @@ def start():
 @bottle.post('/move')
 def move():
     data = bottle.request.json
+    print(json.dumps(data))
 
+    directions = ['up', 'down', 'left', 'right']
+    direction = random.choice(directions)
+
+    return move_response(direction)
+"""
 ###################WALLS##############################
-    height = ['board']['height'] - 1 ##data
-    width = ['board']['width'] - 1 #data
+    height = data['board']['height'] - 1 ##data
+    width = data['board']['width'] - 1 #data
     walls = []
     enemyheads = []
     h = 0
@@ -175,6 +183,7 @@ def move():
                 return move_response('right')
         i = i + 1
 
+"""
 @bottle.post('/end')
 def end():
     data = bottle.request.json
