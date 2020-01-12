@@ -8,7 +8,7 @@ from api import ping_response, start_response, move_response, end_response
 @bottle.route('/')
 def index():
     return '''
-    Testing Shit out sooooonnn!.
+    Testing Shit out.
     '''
 
 @bottle.route('/static/<path:path>')
