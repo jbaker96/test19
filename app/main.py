@@ -21,7 +21,7 @@ def ping():
 
 @bottle.post('/start')
 def start():
-    startinput = {  "color": "#FFC100", 
+    startinput = {  "color": "gold", 
                     #"headType": "tongue", 
                     #"tailType": "curled"
                 }
