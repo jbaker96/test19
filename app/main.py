@@ -23,8 +23,8 @@ def ping():
 def start():
     color = "#FFC100"
     #headType = "tongue"
-    tailType = "curled"
-    return start_response(color, tailType)#, headType, tailType)
+    #tailType = "curled"
+    return start_response(color)#, headType, tailType)
 
 @bottle.post('/move')
 def move():
