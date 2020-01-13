@@ -21,12 +21,13 @@ def ping():
 
 @bottle.post('/start')
 def start():
-    startinput = {  "color": "gold" 
+    #startinput = { "color": "gold" 
                     #"headType": "tongue", 
                     #"tailType": "curled"
-                }
-    jsonoutput = json.dumps(startinput)
-    return start_response(jsonoutput)
+    #            }
+    #jsonoutput = json.dumps(startinput)
+    headType = "tongue"
+    return start_response(headType)
 
 @bottle.post('/move')
 def move():
