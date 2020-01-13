@@ -21,9 +21,6 @@ def ping():
 
 @bottle.post('/start')
 def start():
-    str headType
-    str tailType
-    str color
     startinput = {color: "#FFC100", headType: "tongue", tailType: "curled"}
     jsonoutput = json.dumps(startinput)
     return start_response(jsonoutput)
