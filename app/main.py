@@ -26,8 +26,9 @@ def start():
                     #"tailType": "curled"
     #            }
     #jsonoutput = json.dumps(startinput)
-    headType = "tongue"
-    return start_response(headType)
+    #headType = "tongue"
+    color = "#FFC100"
+    return start_response(color)
 
 @bottle.post('/move')
 def move():
