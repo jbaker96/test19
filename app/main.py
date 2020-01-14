@@ -31,7 +31,7 @@ def start():
     
 @bottle.post('/move')
 def move():
-    data = json.loads(bottle.request.json)
+    data = bottle.request.json
 
 ###################WALLS##############################
     height = data['board']['height'] - 1 
