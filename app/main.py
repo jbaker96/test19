@@ -31,11 +31,11 @@ def start():
     
 @bottle.post('/move')
 def move():
-    #data = bottle.request.json
+    data = json.loads(bottle.request.json)
 
 ###################WALLS##############################
-    height = bottle.request.json['board']['height'] - 1 
-    width = bottle.request.json['board']['width'] - 1 
+    height = data['board']['height'] - 1 
+    width = data['board']['width'] - 1 
     walls = []
     enemyheads = []
     h = 0
@@ -60,9 +60,9 @@ def move():
         w = w + 1
 
     ####################ME##########################
-    me = bottle.request.json['you']['body'] 
-    ID = bottle.request.json['you']['id'] 
-    health = bottle.request.json['you']['health'] 
+    me = data['you']['body'] 
+    ID = data['you']['id'] 
+    health = data['you']['health'] 
     length = len(me)
     HeadX = me[0]['x']
     HeadY = me[0]['y']
@@ -76,7 +76,7 @@ def move():
         walls.extend(a)
 
     ####################OTHERS######################
-    others = bottle.request.json['board']['snakes']
+    others = data['board']['snakes']
     for i in range(len(others)):
         if others[i]['id'] == ID:
             continue
@@ -88,7 +88,7 @@ def move():
                 enemyheads.extend(a)
 
     ####################FIND FOOD OR TAIL########################
-    FoodList = bottle.request.json['board']['food']
+    FoodList = data['board']['food']
 
     if health > 50 or len(FoodList) == 0:
         GoalX = TailX - HeadX
