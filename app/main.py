@@ -26,8 +26,8 @@ def start():
         "headType": "tongue",
         "tailType": "hook"
     }
-    jsonoutput = json.dump(pydict)
-    return start_response(jsonoutput)
+    jsonoutput = json.dumps(pydict)
+    return jsonoutput
     
 @bottle.post('/move')
 def move():
