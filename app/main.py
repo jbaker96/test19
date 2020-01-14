@@ -28,10 +28,10 @@ def start():
 }
     
     #startinput = {"color":"#FFC100"}#, 'headType':'tongue', 'tailType':'curled' }
-    #jsonoutput = json.dumps(startinput)
+    jsonoutput = json.dumps(response)
     #headType = "tongue"
     #color = "FFC100"
-    return start_response(response)
+    return start_response(jsonoutput)
     
 @bottle.post('/move')
 def move():
