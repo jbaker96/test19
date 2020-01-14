@@ -180,8 +180,6 @@ def move():
 
 @bottle.post('/end')
 def end():
-    """data"""bottle.request.json = bottle.request.json
-    print(json.dumps("""data"""bottle.request.json))
     return end_response()
 
 # Expose WSGI app (so gunicorn can find it)
