@@ -99,10 +99,14 @@ def move():
                 if j == 0:
                     enemyheads.extend(a)
         if threat >= length:
-            walls.extend([snake['body'][0]['x'] + 1, snake['body'][0]['y']])
-            walls.extend([snake['body'][0]['x'] - 1, snake['body'][0]['y']])
-            walls.extend([snake['body'][0]['x'], snake['body'][0]['y'] + 1])
-            walls.extend([snake['body'][0]['x'], snake['body'][0]['y'] - 1])    
+            a = [[snake['body'][0]['x'] + 1, snake['body'][0]['y']]]
+            walls.extend(a)
+            a = [[snake['body'][0]['x'] - 1, snake['body'][0]['y']]]
+            walls.extend(a)
+            a = [[snake['body'][0]['x'], snake['body'][0]['y'] + 1]]
+            walls.extend(a)
+            a = [[snake['body'][0]['x'], snake['body'][0]['y'] - 1]]
+            walls.extend(a)    
 
     ####################FIND FOOD OR TAIL########################
     FoodList = data['board']['food']
