@@ -38,6 +38,7 @@ def move():
     width = data['board']['width'] - 1 
     walls = []
     enemyheads = []
+    enemytails = []
     h = 0
     w = 0
     while (h<=height):
@@ -71,7 +72,7 @@ def move():
     m = 1
     if health == 100:
         m = 0
-    for i in range(length - 1):
+    for i in range(length - m):
         a = [[me[i]['x'], me[i]['y']]]
         walls.extend(a)
 
@@ -81,11 +82,21 @@ def move():
         if others[i]['id'] == ID:
             continue
         snake = others[i]
+        m = 1
+        eaten = snake['health']
+        if eaten == 100:
+            m = 0
         for j in range(len(snake['body'])):
-            a = [[snake['body'][j]['x'], snake['body'][j]['y']]]
-            walls.extend(a)
-            if j == 0:
-                enemyheads.extend(a)
+            if j == len(snake['body']):
+                a = [[snake['body'][j]['x'], snake['body'][j]['y']]]
+                enemytails.extend(a)
+                if snake['health'] != 100:
+                    walls.extend(a)    
+            else:    
+                a = [[snake['body'][j]['x'], snake['body'][j]['y']]]
+                walls.extend(a)
+                if j == 0:
+                    enemyheads.extend(a)
 
     ####################FIND FOOD OR TAIL########################
     FoodList = data['board']['food']
