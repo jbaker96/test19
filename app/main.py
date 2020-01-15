@@ -84,6 +84,7 @@ def move():
         snake = others[i]
         m = 1
         eaten = snake['health']
+        threat = len(snake['body'])
         if eaten == 100:
             m = 0
         for j in range(len(snake['body'])):
@@ -97,6 +98,11 @@ def move():
                 walls.extend(a)
                 if j == 0:
                     enemyheads.extend(a)
+        if threat >= length:
+            walls.extend([snake['body'][0]['x'] + 1, snake['body'][0]['y']])
+            walls.extend([snake['body'][0]['x'] - 1, snake['body'][0]['y']])
+            walls.extend([snake['body'][0]['x'], snake['body'][0]['y'] + 1])
+            walls.extend([snake['body'][0]['x'], snake['body'][0]['y'] - 1])    
 
     ####################FIND FOOD OR TAIL########################
     FoodList = data['board']['food']
