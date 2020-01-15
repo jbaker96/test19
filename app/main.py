@@ -23,8 +23,8 @@ def ping():
 def start():
     pydict = {
         "color": "#FFC100",
-        "headType": "tongue",
-        "tailType": "hook"
+        "headType": "dead",
+        "tailType": "curled"
     }
     jsonoutput = json.dumps(pydict)
     return jsonoutput
