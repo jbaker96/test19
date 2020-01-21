@@ -29,6 +29,77 @@ def start():
     jsonoutput = json.dumps(pydict)
     return jsonoutput
     
+def FindTail(a, walls, checked, tail, count):
+    
+    if a == tail:
+        return True
+    if a in walls:
+        return False
+    if a in checked:
+        return False
+    count[0] = count[0] + 1
+    checked.extend([a])
+
+    tailX = tail[0] - a[0]
+    tailY = tail[1] - a[1]
+    headU = [0, -1]
+    headD = [0, 1]
+    headL = [-1, 0]
+    headR = [1, 0]
+
+    if abs(tailX) >= abs(tailY):
+        if tailX > 0:
+            first = headR
+            if tailY >= 0:
+                second = headD
+                third = headU
+                last = headL
+            else:
+                second = headU
+                third = headD
+                last = headL
+        else:
+            first = headL
+            if tailY >= 0:
+                second = headD
+                third = headU
+                last = headR
+            else:
+                second = headU
+                third = headD
+                last = headR
+    else:
+        if tailY > 0:
+            first = headD
+            if tailX >= 0:
+                second = headR
+                third = headL
+                last = headU
+            else:
+                second = headL
+                third = headR
+                last = headU
+        else:
+            first = headU
+            if tailX >= 0:
+                second = headR
+                third = headL
+                last = headD
+            else:
+                second = headL
+                third = headR
+                last = headD
+
+    if (FindTail([a[0] + first[0], a[1] + first[1]], walls, checked, tail, count)) == True:
+        return True
+    if (FindTail([a[0] + second[0], a[1] + second[1]], walls, checked, tail, count)) == True:
+        return True
+    if (FindTail([a[0] + third[0], a[1] + third[1]], walls, checked, tail, count)) == True:
+        return True
+    if (FindTail([a[0] + last[0], a[1] + last[1]], walls, checked, tail, count)) == True:
+        return True
+    return False
+
 @bottle.post('/move')
 def move():
     data = bottle.request.json
@@ -37,8 +108,15 @@ def move():
     height = data['board']['height'] - 1 
     width = data['board']['width'] - 1 
     walls = []
+    danger = []
     enemyheads = []
     enemytails = []
+    checked = []
+    headU = [0, -1]
+    headD = [0, 1]
+    headL = [-1, 0]
+    headR = [1, 0]
+    count = [0]
     h = 0
     w = 0
     while (h<=height):
@@ -69,6 +147,7 @@ def move():
     HeadY = me[0]['y']
     TailX = me[length-1]['x']
     TailY = me[length-1]['y']
+    tail = [TailX, TailY]
     m = 1
     if health == 100:
         m = 0
@@ -100,16 +179,134 @@ def move():
                     enemyheads.extend(a)
         if threat >= length:
             a = [[snake['body'][0]['x'] + 1, snake['body'][0]['y']]]
-            walls.extend(a)
+            danger.extend(a)
             a = [[snake['body'][0]['x'] - 1, snake['body'][0]['y']]]
-            walls.extend(a)
+            danger.extend(a)
             a = [[snake['body'][0]['x'], snake['body'][0]['y'] + 1]]
-            walls.extend(a)
+            danger.extend(a)
             a = [[snake['body'][0]['x'], snake['body'][0]['y'] - 1]]
-            walls.extend(a)    
+            danger.extend(a)    
 
     ####################FIND FOOD OR TAIL########################
-    FoodList = data['board']['food']
+    if health < 50:
+        #Check Left
+        Left = 0
+        if FindTail([HeadX - 1, HeadY], walls, checked, tail, count) == True:
+            Left = count[0]
+        count[0] = 0
+        #Check Right
+        Right = 0
+        if FindTail([HeadX + 1, HeadY], walls, checked, tail, count) == True:
+            Right = count[0]
+        count[0] = 0
+        #Check Up
+        Up = 0
+        if FindTail([HeadX, HeadY - 1], walls, checked, tail, count) == True:
+            Up = count[0]
+        count[0] = 0
+        #Check Down
+        Down = 0
+        if FindTail([HeadX, HeadY + 1], walls, checked, tail, count) == True:
+            Down = count[0]
+        count[0] = 0
+        var = [Left, Right, Up, Down]
+        check = min(i for i in var if i > 0)
+        pos = var.index(check)
+        if pos == 0:
+            return move_response('left')
+        if pos == 1:
+            return move_response('right')
+        if pos == 2:
+            return move_response('up')
+        if pos == 3:
+            return move_response('down')
+
+    else:
+        FoodList = data['board']['food']
+        j = 0
+        while (j < len(FoodList)):
+            b = abs(FoodList[j]['x'] - HeadX) + abs(FoodList[j]['y'] - HeadY)  
+            if j == 0:
+                minval = b
+                counter = j
+            if b < minval:
+                counter = j
+                minval = b
+            j = j + 1
+
+        FoodX = FoodList[counter]['x']
+        FoodY = FoodList[counter]['y']
+
+        GoalX = FoodX - HeadX
+        GoalY = FoodY - HeadY
+    
+        if abs(GoalX) <= abs(GoalY):
+            if GoalY > 0:
+                if [HeadX, HeadY+1] not in walls:
+                    return move_response('down')
+                elif GoalX >= 0:
+                    if [HeadX+1, HeadY] not in walls:
+                        return move_response('right')
+                elif GoalX < 0:
+                    if [HeadX-1, HeadY] not in walls:
+                        return move_response('left')
+                elif [HeadX, HeadY-1] not in walls:
+                    return move_response('up')
+
+            if GoalY < 0:
+                if [HeadX, HeadY-1] not in walls:
+                    return move_response('up')
+                elif GoalX >= 0:
+                    if [HeadX+1, HeadY] not in walls:
+                        return move_response('right')
+                elif GoalX < 0:
+                    if [HeadX-1, HeadY] not in walls:
+                        return move_response('left')
+                elif [HeadX, HeadY+1] not in walls:
+                    return move_response('down')
+
+        else:
+            if GoalX > 0:
+                if [HeadX+1, HeadY] not in walls:
+                    return move_response('right')
+                elif GoalY >= 0:
+                    if [HeadX, HeadY+1] not in walls:
+                        return move_response('down')
+                elif GoalY < 0:
+                    if [HeadX, HeadY-1] not in walls:
+                        return move_response('up')
+                elif [HeadX-1, HeadY] not in walls:
+                    return move_response('left')
+
+            if GoalX < 0:
+                if [HeadX-1, HeadY] not in walls:
+                    return move_response('left')
+                elif GoalY >= 0:
+                    if [HeadX, HeadY+1] not in walls:
+                        return move_response('down')
+                elif GoalY < 0:
+                    if [HeadX, HeadY-1] not in walls:
+                        return move_response('up')
+                elif [HeadX+1, HeadY] not in walls:
+                    return move_response('right')
+
+    i = 1
+    directions = [[0,-1],[0,1],[-1,0],[1,0]]
+    while i < 20:
+        direction = random.choice(directions)
+        if [direction[0]+HeadX, direction[1]+HeadY] not in walls:
+            if direction == [0,-1]:
+                return move_response('up')
+            if direction == [0,1]:
+                return move_response('down')
+            if direction == [-1,0]:
+                return move_response('left')
+            if direction == [1,0]:
+                return move_response('right')
+        i = i + 1
+
+
+    '''FoodList = data['board']['food']
 
     if health > 50 or len(FoodList) == 0:
         GoalX = TailX - HeadX
@@ -196,7 +393,7 @@ def move():
                 return move_response('left')
             if direction == [1,0]:
                 return move_response('right')
-        i = i + 1
+        i = i + 1'''
 
 
 @bottle.post('/end')
