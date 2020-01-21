@@ -188,7 +188,7 @@ def move():
             danger.extend(a)    
 
     ####################FIND FOOD OR TAIL########################
-    if health < 50:
+    if health > 50:
         #Check Left
         Left = 0
         if FindTail([HeadX - 1, HeadY], walls, checked, tail, count) == True:
