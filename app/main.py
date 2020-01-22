@@ -30,7 +30,11 @@ def start():
     return jsonoutput
     
 def FindTail(a, walls, checked, tail, count):
-    
+    headU = [0, -1]
+    headD = [0, 1]
+    headL = [-1, 0]
+    headR = [1, 0]
+
     if a == tail:
         return True
     if a in walls:
@@ -164,10 +168,6 @@ def move():
     enemyheads = []
     enemytails = []
     checked = []
-    headU = [0, -1]
-    headD = [0, 1]
-    headL = [-1, 0]
-    headR = [1, 0]
     count = [1]
     h = 0
     w = 0
@@ -311,96 +311,6 @@ def move():
             if direction == [1,0]:
                 return move_response('right')
         i = i + 1
-
-
-    '''FoodList = data['board']['food']
-
-    if health > 50 or len(FoodList) == 0:
-        GoalX = TailX - HeadX
-        GoalY = TailY - HeadY
-    else:
-        j = 0
-        while (j < len(FoodList)):
-            b = abs(FoodList[j]['x'] - HeadX) + abs(FoodList[j]['y'] - HeadY)  
-            if j == 0:
-                minval = b
-                counter = j
-            if b < minval:
-                counter = j
-                minval = b
-            j = j + 1
-
-        FoodX = FoodList[counter]['x']
-        FoodY = FoodList[counter]['y']
-
-        GoalX = FoodX - HeadX
-        GoalY = FoodY - HeadY
-
-    ########################MOVEMENT#############################
-    if abs(GoalX) <= abs(GoalY):
-        if GoalY > 0:
-            if [HeadX, HeadY+1] not in walls:
-                return move_response('down')
-            elif GoalX >= 0:
-                if [HeadX+1, HeadY] not in walls:
-                    return move_response('right')
-            elif GoalX < 0:
-                if [HeadX-1, HeadY] not in walls:
-                    return move_response('left')
-            elif [HeadX, HeadY-1] not in walls:
-                return move_response('up')
-
-        if GoalY < 0:
-            if [HeadX, HeadY-1] not in walls:
-                return move_response('up')
-            elif GoalX >= 0:
-                if [HeadX+1, HeadY] not in walls:
-                    return move_response('right')
-            elif GoalX < 0:
-                if [HeadX-1, HeadY] not in walls:
-                    return move_response('left')
-            elif [HeadX, HeadY+1] not in walls:
-                return move_response('down')
-
-    else:
-        if GoalX > 0:
-            if [HeadX+1, HeadY] not in walls:
-                return move_response('right')
-            elif GoalY >= 0:
-                if [HeadX, HeadY+1] not in walls:
-                    return move_response('down')
-            elif GoalY < 0:
-                if [HeadX, HeadY-1] not in walls:
-                    return move_response('up')
-            elif [HeadX-1, HeadY] not in walls:
-                return move_response('left')
-
-        if GoalX < 0:
-            if [HeadX-1, HeadY] not in walls:
-                return move_response('left')
-            elif GoalY >= 0:
-                if [HeadX, HeadY+1] not in walls:
-                    return move_response('down')
-            elif GoalY < 0:
-                if [HeadX, HeadY-1] not in walls:
-                    return move_response('up')
-            elif [HeadX+1, HeadY] not in walls:
-                return move_response('right')
-    
-    i = 1
-    directions = [[0,-1],[0,1],[-1,0],[1,0]]
-    while i < 20:
-        direction = random.choice(directions)
-        if [direction[0]+HeadX, direction[1]+HeadY] not in walls:
-            if direction == [0,-1]:
-                return move_response('up')
-            if direction == [0,1]:
-                return move_response('down')
-            if direction == [-1,0]:
-                return move_response('left')
-            if direction == [1,0]:
-                return move_response('right')
-        i = i + 1'''
 
 
 @bottle.post('/end')
