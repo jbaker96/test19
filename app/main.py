@@ -100,6 +100,57 @@ def FindTail(a, walls, checked, tail, count):
         return True
     return False
 
+def StandardFind(GoalX, GoalY, walls, HeadX, HeadY):
+    if abs(GoalX) <= abs(GoalY):
+        if GoalY > 0:
+            if [HeadX, HeadY+1] not in walls:
+                return move_response('down')
+            elif GoalX >= 0:
+                if [HeadX+1, HeadY] not in walls:
+                    return move_response('right')
+            elif GoalX < 0:
+                if [HeadX-1, HeadY] not in walls:
+                    return move_response('left')
+            elif [HeadX, HeadY-1] not in walls:
+                return move_response('up')
+
+        if GoalY < 0:
+            if [HeadX, HeadY-1] not in walls:
+                return move_response('up')
+            elif GoalX >= 0:
+                if [HeadX+1, HeadY] not in walls:
+                    return move_response('right')
+            elif GoalX < 0:
+                if [HeadX-1, HeadY] not in walls:
+                    return move_response('left')
+            elif [HeadX, HeadY+1] not in walls:
+                return move_response('down')
+
+    else:
+        if GoalX > 0:
+            if [HeadX+1, HeadY] not in walls:
+                return move_response('right')
+            elif GoalY >= 0:
+                if [HeadX, HeadY+1] not in walls:
+                    return move_response('down')
+            elif GoalY < 0:
+                if [HeadX, HeadY-1] not in walls:
+                    return move_response('up')
+            elif [HeadX-1, HeadY] not in walls:
+                return move_response('left')
+
+        if GoalX < 0:
+            if [HeadX-1, HeadY] not in walls:
+                return move_response('left')
+            elif GoalY >= 0:
+                if [HeadX, HeadY+1] not in walls:
+                    return move_response('down')
+            elif GoalY < 0:
+                if [HeadX, HeadY-1] not in walls:
+                    return move_response('up')
+            elif [HeadX+1, HeadY] not in walls:
+                return move_response('right')
+
 @bottle.post('/move')
 def move():
     data = bottle.request.json
@@ -192,56 +243,7 @@ def move():
     if turn < 4:
         GoalX = (width/2) - HeadX
         GoalY = (height/2) - HeadY
-        
-        if abs(GoalX) <= abs(GoalY):
-            if GoalY > 0:
-                if [HeadX, HeadY+1] not in walls:
-                    return move_response('down')
-                elif GoalX >= 0:
-                    if [HeadX+1, HeadY] not in walls:
-                        return move_response('right')
-                elif GoalX < 0:
-                    if [HeadX-1, HeadY] not in walls:
-                        return move_response('left')
-                elif [HeadX, HeadY-1] not in walls:
-                    return move_response('up')
-
-            if GoalY < 0:
-                if [HeadX, HeadY-1] not in walls:
-                    return move_response('up')
-                elif GoalX >= 0:
-                    if [HeadX+1, HeadY] not in walls:
-                        return move_response('right')
-                elif GoalX < 0:
-                    if [HeadX-1, HeadY] not in walls:
-                        return move_response('left')
-                elif [HeadX, HeadY+1] not in walls:
-                    return move_response('down')
-
-        else:
-            if GoalX > 0:
-                if [HeadX+1, HeadY] not in walls:
-                    return move_response('right')
-                elif GoalY >= 0:
-                    if [HeadX, HeadY+1] not in walls:
-                        return move_response('down')
-                elif GoalY < 0:
-                    if [HeadX, HeadY-1] not in walls:
-                        return move_response('up')
-                elif [HeadX-1, HeadY] not in walls:
-                    return move_response('left')
-
-            if GoalX < 0:
-                if [HeadX-1, HeadY] not in walls:
-                    return move_response('left')
-                elif GoalY >= 0:
-                    if [HeadX, HeadY+1] not in walls:
-                        return move_response('down')
-                elif GoalY < 0:
-                    if [HeadX, HeadY-1] not in walls:
-                        return move_response('up')
-                elif [HeadX+1, HeadY] not in walls:
-                    return move_response('right')
+        StandardFind(GoalX, GoalY, walls, HeadX, HeadY)
     elif health > 50:
         #Check Left
         Left = 0
@@ -293,56 +295,7 @@ def move():
 
         GoalX = FoodX - HeadX
         GoalY = FoodY - HeadY
-    
-        if abs(GoalX) <= abs(GoalY):
-            if GoalY > 0:
-                if [HeadX, HeadY+1] not in walls:
-                    return move_response('down')
-                elif GoalX >= 0:
-                    if [HeadX+1, HeadY] not in walls:
-                        return move_response('right')
-                elif GoalX < 0:
-                    if [HeadX-1, HeadY] not in walls:
-                        return move_response('left')
-                elif [HeadX, HeadY-1] not in walls:
-                    return move_response('up')
-
-            if GoalY < 0:
-                if [HeadX, HeadY-1] not in walls:
-                    return move_response('up')
-                elif GoalX >= 0:
-                    if [HeadX+1, HeadY] not in walls:
-                        return move_response('right')
-                elif GoalX < 0:
-                    if [HeadX-1, HeadY] not in walls:
-                        return move_response('left')
-                elif [HeadX, HeadY+1] not in walls:
-                    return move_response('down')
-
-        else:
-            if GoalX > 0:
-                if [HeadX+1, HeadY] not in walls:
-                    return move_response('right')
-                elif GoalY >= 0:
-                    if [HeadX, HeadY+1] not in walls:
-                        return move_response('down')
-                elif GoalY < 0:
-                    if [HeadX, HeadY-1] not in walls:
-                        return move_response('up')
-                elif [HeadX-1, HeadY] not in walls:
-                    return move_response('left')
-
-            if GoalX < 0:
-                if [HeadX-1, HeadY] not in walls:
-                    return move_response('left')
-                elif GoalY >= 0:
-                    if [HeadX, HeadY+1] not in walls:
-                        return move_response('down')
-                elif GoalY < 0:
-                    if [HeadX, HeadY-1] not in walls:
-                        return move_response('up')
-                elif [HeadX+1, HeadY] not in walls:
-                    return move_response('right')
+        StandardFind(GoalX, GoalY, walls, HeadX, HeadY)
 
     i = 1
     directions = [[0,-1],[0,1],[-1,0],[1,0]]
