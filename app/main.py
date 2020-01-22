@@ -241,8 +241,8 @@ def move():
 
     ####################FIND FOOD OR TAIL########################
     if turn < 4:
-        GoalX = (width/2) - HeadX
-        GoalY = (height/2) - HeadY
+        GoalX = (width//2) - HeadX
+        GoalY = (height//2) - HeadY
         StandardFind(GoalX, GoalY, walls, HeadX, HeadY)
     elif health > 50:
         #Check Left
