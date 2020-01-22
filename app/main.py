@@ -277,7 +277,7 @@ def move():
         Down = 0
         if FindTail([HeadX, HeadY + 1], walls, checked, tail, count) == True:
             Down = count[0]
-            if [HeadX, HeadY, + 1] in danger:
+            if [HeadX, HeadY + 1] in danger:
                 Down = Down + 10
         #Reset
         count[0] = 1
