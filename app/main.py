@@ -250,24 +250,36 @@ def move():
         Left = 0
         if FindTail([HeadX - 1, HeadY], walls, checked, tail, count) == True:
             Left = count[0]
+            if [HeadX - 1, HeadY] in danger:
+                Left = Left + 10
+        #Reset
         count[0] = 1
         checked = []
         #Check Right
         Right = 0
         if FindTail([HeadX + 1, HeadY], walls, checked, tail, count) == True:
             Right = count[0]
+            if [HeadX + 1, HeadY] in danger:
+                Right = Right + 10
+        #Reset
         count[0] = 1
         checked = []
         #Check Up
         Up = 0
         if FindTail([HeadX, HeadY - 1], walls, checked, tail, count) == True:
             Up = count[0]
+            if [HeadX, HeadY - 1] in danger:
+                Up = Up + 10
+        #Reset
         count[0] = 1
         checked = []
         #Check Down
         Down = 0
         if FindTail([HeadX, HeadY + 1], walls, checked, tail, count) == True:
             Down = count[0]
+            if [HeadX, HeadY, + 1] in danger:
+                Down = Down + 10
+        #Reset
         count[0] = 1
         checked = []
         var = [Left, Right, Up, Down]
