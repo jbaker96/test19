@@ -244,7 +244,8 @@ def move():
         GoalX = (width//2) - HeadX
         GoalY = (height//2) - HeadY
         StandardFind(GoalX, GoalY, walls, HeadX, HeadY)
-    el'''if health > 101:
+    el'''
+    if health > 101:
         #Check Left
         Left = 0
         if FindTail([HeadX - 1, HeadY], walls, checked, tail, count) == True:
