@@ -116,7 +116,7 @@ def move():
     headD = [0, 1]
     headL = [-1, 0]
     headR = [1, 0]
-    count = [0]
+    count = [1]
     h = 0
     w = 0
     while (h<=height):
@@ -193,22 +193,22 @@ def move():
         Left = 0
         if FindTail([HeadX - 1, HeadY], walls, checked, tail, count) == True:
             Left = count[0]
-        count[0] = 0
+        count[0] = 1
         #Check Right
         Right = 0
         if FindTail([HeadX + 1, HeadY], walls, checked, tail, count) == True:
             Right = count[0]
-        count[0] = 0
+        count[0] = 1
         #Check Up
         Up = 0
         if FindTail([HeadX, HeadY - 1], walls, checked, tail, count) == True:
             Up = count[0]
-        count[0] = 0
+        count[0] = 1
         #Check Down
         Down = 0
         if FindTail([HeadX, HeadY + 1], walls, checked, tail, count) == True:
             Down = count[0]
-        count[0] = 0
+        count[0] = 1
         var = [Left, Right, Up, Down]
         check = min(i for i in var if i > 0)
         pos = var.index(check)
