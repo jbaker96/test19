@@ -245,7 +245,7 @@ def move():
         GoalY = (height//2) - HeadY
         resp = StandardFind(GoalX, GoalY, walls, HeadX, HeadY)
         return move_response(resp)
-    elif health > 50 or data['board']['food'] is empty:
+    elif health > 50 or len(data['board']['food']) == 0:
         #Check Left
         Left = 0
         if FindTail([HeadX - 1, HeadY], walls, checked, tail, count) == True:
@@ -285,14 +285,20 @@ def move():
         var = [Left, Right, Up, Down]
         check = min(i for i in var if i > 0)
         pos = var.index(check)
-        if pos == 0:
-            return move_response('left')
-        if pos == 1:
-            return move_response('right')
-        if pos == 2:
-            return move_response('up')
-        if pos == 3:
-            return move_response('down')
+        if check > 99:
+            GoalX = (width//2) - HeadX
+            GoalY = (height//2) - HeadY
+            resp = StandardFind(GoalX, GoalY, walls, HeadX, HeadY)
+            return move_response(resp)
+        else:    
+            if pos == 0:
+                return move_response('left')
+            if pos == 1:
+                return move_response('right')
+            if pos == 2:
+                return move_response('up')
+            if pos == 3:
+                return move_response('down')
 
     else:
         FoodList = data['board']['food']
