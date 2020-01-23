@@ -240,12 +240,12 @@ def move():
             danger.extend(a)    
 
     ####################FIND FOOD OR TAIL########################
-    if turn < 4:
+    if turn < 3:
         GoalX = (width//2) - HeadX
         GoalY = (height//2) - HeadY
         resp = StandardFind(GoalX, GoalY, walls, HeadX, HeadY)
         return move_response(resp)
-    elif health > 50 or len(data['board']['food']) == 0:
+    elif health > 80 or len(data['board']['food']) == 0:
         #Check Left
         Left = 0
         if FindTail([HeadX - 1, HeadY], walls, checked, tail, count) == True:
