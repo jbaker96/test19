@@ -3,7 +3,7 @@ import os
 import random
 import bottle
 
-#from api import ping_response, start_response, move_response, end_response
+from api import ping_response, start_response, move_response, end_response
 
 @bottle.route('/')
 def index():
@@ -245,7 +245,7 @@ def move():
         GoalY = (height//2) - HeadY
         resp = StandardFind(GoalX, GoalY, walls, HeadX, HeadY)
         return move_response(resp)
-    elif health > 50:
+    elif health > 50 or data['board']['food'] is empty:
         #Check Left
         Left = 0
         if FindTail([HeadX - 1, HeadY], walls, checked, tail, count) == True:
@@ -312,8 +312,58 @@ def move():
 
         GoalX = FoodX - HeadX
         GoalY = FoodY - HeadY
-        resp = StandardFind(GoalX, GoalY, walls, HeadX, HeadY)
-        return move_response(resp) 
+        goal = [GoalX, GoalY]
+        #Check Left
+        Left = 0
+        if FindTail([HeadX - 1, HeadY], walls, checked, goal, count) == True:
+            if FindTail(goal, walls, checked, tail, count) == True:
+                Left = count[0]
+                if [HeadX - 1, HeadY] in danger:
+                    Left = Left + 10
+        #Reset
+        count[0] = 1
+        checked = []
+        #Check Right
+        Right = 0
+        if FindTail([HeadX + 1, HeadY], walls, checked, goal, count) == True:
+            if FindTail(goal, walls, checked, tail, count) == True:
+                Right = count[0]
+                if [HeadX + 1, HeadY] in danger:
+                    Right = Right + 10
+        #Reset
+        count[0] = 1
+        checked = []
+        #Check Up
+        Up = 0
+        if FindTail([HeadX, HeadY - 1], walls, checked, goal, count) == True:
+            if FindTail(goal, walls, checked, tail, count) == True:
+                Up = count[0]
+                if [HeadX, HeadY - 1] in danger:
+                    Up = Up + 10
+        #Reset
+        count[0] = 1
+        checked = []
+        #Check Down
+        Down = 0
+        if FindTail([HeadX, HeadY + 1], walls, checked, tail, count) == True:
+            if FindTail(goal, walls, checked, tail, count) == True:
+                Down = count[0]
+                if [HeadX, HeadY + 1] in danger:
+                    Down = Down + 10
+        #Reset
+        count[0] = 1
+        checked = []
+        var = [Left, Right, Up, Down]
+        check = min(i for i in var if i > 0)
+        pos = var.index(check)
+        if pos == 0:
+            return move_response('left')
+        if pos == 1:
+            return move_response('right')
+        if pos == 2:
+            return move_response('up')
+        if pos == 3:
+            return move_response('down') 
 
     i = 1
     directions = [[0,-1],[0,1],[-1,0],[1,0]]
