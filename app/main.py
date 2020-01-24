@@ -203,7 +203,7 @@ def move():
     for i in range(length - 1):
         a = [[me[i]['x'], me[i]['y']]]
         walls.extend(a)
-    if health == 100:
+    if health == 99:
         a = [[TailX, TailY]]
         walls.extend(a)
 
