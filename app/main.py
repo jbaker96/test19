@@ -306,14 +306,14 @@ def move():
         j = 0
         while (j < len(FoodList)):
             b = abs(FoodList[j]['x'] - HeadX) + abs(FoodList[j]['y'] - HeadY)
-            '''a = [[FoodList[j]['x'] + 1, FoodList[j]['y']]]
+            a = [[FoodList[j]['x'] + 1, FoodList[j]['y']]]
             danger.extend(a)
             a = [[FoodList[j]['x'] - 1, FoodList[j]['y']]]
             danger.extend(a)
             a = [[FoodList[j]['x'], FoodList[j]['y'] + 1]]
             danger.extend(a)
             a = [[FoodList[j]['x'], FoodList[j]['y'] - 1]]
-            danger.extend(a)''' 
+            danger.extend(a)
             if j == 0:
                 minval = b
                 counter = j
@@ -333,8 +333,8 @@ def move():
         if FindTail([HeadX - 1, HeadY], walls, checked, goal, count) == True:
             if FindTail(goal, walls, checked, tail, count) == True:
                 Left = count[0]
-                '''if [HeadX - 1, HeadY] in danger:
-                    Left = Left + 100'''
+                if [HeadX - 1, HeadY] in danger:
+                    Left = Left + 100
         #Reset
         count[0] = 1
         checked = []
@@ -343,8 +343,8 @@ def move():
         if FindTail([HeadX + 1, HeadY], walls, checked, goal, count) == True:
             if FindTail(goal, walls, checked, tail, count) == True:
                 Right = count[0]
-                '''if [HeadX + 1, HeadY] in danger:
-                    Right = Right + 100'''
+                if [HeadX + 1, HeadY] in danger:
+                    Right = Right + 100
         #Reset
         count[0] = 1
         checked = []
@@ -353,8 +353,8 @@ def move():
         if FindTail([HeadX, HeadY - 1], walls, checked, goal, count) == True:
             if FindTail(goal, walls, checked, tail, count) == True:
                 Up = count[0]
-                '''if [HeadX, HeadY - 1] in danger:
-                    Up = Up + 100'''
+                if [HeadX, HeadY - 1] in danger:
+                    Up = Up + 100
         #Reset
         count[0] = 1
         checked = []
@@ -363,8 +363,8 @@ def move():
         if FindTail([HeadX, HeadY + 1], walls, checked, goal, count) == True:
             if FindTail(goal, walls, checked, tail, count) == True:
                 Down = count[0]
-                '''if [HeadX, HeadY + 1] in danger:
-                    Down = Down + 100'''
+                if [HeadX, HeadY + 1] in danger:
+                    Down = Down + 100
         #Reset
         count[0] = 1
         checked = []
