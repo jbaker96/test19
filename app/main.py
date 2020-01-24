@@ -327,7 +327,7 @@ def move():
 
         GoalX = FoodX - HeadX
         GoalY = FoodY - HeadY
-        goal = [GoalX, GoalY]
+        goal = [FoodX, FoodY]
         #Check Left
         Left = 0
         if FindTail([HeadX - 1, HeadY], walls, checked, goal, count) == True:
