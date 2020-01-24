@@ -331,7 +331,7 @@ def move():
         #Check Left
         Left = 0
         if FindTail([HeadX - 1, HeadY], walls, checked, goal, count) == True:
-            if FindTail(goal, walls, checked, tail, count) == True:
+            #if FindTail(goal, walls, checked, tail, count) == True:
                 Left = count[0]
                 '''if [HeadX - 1, HeadY] in danger:
                     Left = Left + 100'''
@@ -341,7 +341,7 @@ def move():
         #Check Right
         Right = 0
         if FindTail([HeadX + 1, HeadY], walls, checked, goal, count) == True:
-            if FindTail(goal, walls, checked, tail, count) == True:
+            #if FindTail(goal, walls, checked, tail, count) == True:
                 Right = count[0]
                 '''if [HeadX + 1, HeadY] in danger:
                     Right = Right + 100'''
@@ -351,7 +351,7 @@ def move():
         #Check Up
         Up = 0
         if FindTail([HeadX, HeadY - 1], walls, checked, goal, count) == True:
-            if FindTail(goal, walls, checked, tail, count) == True:
+            #if FindTail(goal, walls, checked, tail, count) == True:
                 Up = count[0]
                 '''if [HeadX, HeadY - 1] in danger:
                     Up = Up + 100'''
@@ -361,7 +361,7 @@ def move():
         #Check Down
         Down = 0
         if FindTail([HeadX, HeadY + 1], walls, checked, tail, count) == True:
-            if FindTail(goal, walls, checked, tail, count) == True:
+            #if FindTail(goal, walls, checked, tail, count) == True:
                 Down = count[0]
                 '''if [HeadX, HeadY + 1] in danger:
                     Down = Down + 100'''
