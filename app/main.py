@@ -200,11 +200,11 @@ def move():
     TailX = me[length-1]['x']
     TailY = me[length-1]['y']
     tail = [TailX, TailY]
-    m = 1
-    if health == 100:
-        m = 0
     for i in range(length - m):
         a = [[me[i]['x'], me[i]['y']]]
+        walls.extend(a)
+    if health == 100:
+        a = [[TailX, TailY]]
         walls.extend(a)
 
     ####################OTHERS######################
