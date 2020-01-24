@@ -197,10 +197,10 @@ def move():
     length = len(me)
     HeadX = me[0]['x']
     HeadY = me[0]['y']
-    TailX = me[length]['x']
-    TailY = me[length]['y']
+    TailX = me[length-1]['x']
+    TailY = me[length-1]['y']
     tail = [TailX, TailY]
-    for i in range(length - 1):
+    for i in range(length - 2):
         a = [[me[i]['x'], me[i]['y']]]
         walls.extend(a)
     if health == 100:
