@@ -240,7 +240,7 @@ def move():
             danger.extend(a)    
 
     ####################FIND FOOD OR TAIL########################
-    '''if turn < 3:
+    if turn < 3:
         GoalX = (width//2) - HeadX
         GoalY = (height//2) - HeadY
         resp = StandardFind(GoalX, GoalY, walls, HeadX, HeadY)
@@ -300,8 +300,7 @@ def move():
             if pos == 3:
                 return move_response('down')
 
-    else:'''
-    if turn > 0:
+    else:
         FoodList = data['board']['food']
         j = 0
         while (j < len(FoodList)):
