@@ -168,6 +168,7 @@ def move():
     enemyheads = []
     enemytails = []
     checked = []
+    center = [width//2, height//2]
     count = [1]
     h = 0
     w = 0
@@ -203,8 +204,8 @@ def move():
     for i in range(length - 1):
         a = [[me[i]['x'], me[i]['y']]]
         walls.extend(a)
-    if health >= 99:
-        a = [[TailX, TailY]]
+    if health == 100:
+        a = [tail]
         walls.extend(a)
 
     ####################OTHERS######################
@@ -213,11 +214,7 @@ def move():
         if others[i]['id'] == ID:
             continue
         snake = others[i]
-        m = 1
-        eaten = snake['health']
         threat = len(snake['body'])
-        if eaten == 100:
-            m = 0
         for j in range(len(snake['body'])):
             if j == len(snake['body']):
                 a = [[snake['body'][j]['x'], snake['body'][j]['y']]]
@@ -239,7 +236,9 @@ def move():
             a = [[snake['body'][0]['x'], snake['body'][0]['y'] - 1]]
             danger.extend(a)    
 
-    ####################FIND ORDER GOALS########################
+    ####################ORDER GOALS & SAFETY NET##############################
+    goal = []
+    safetynet = []
     if health < 51:    
         FoodList = data['board']['food']
         j = 0
@@ -258,10 +257,17 @@ def move():
 
         #GoalX = FoodX - HeadX
         #GoalY = FoodY - HeadY
-        goal = [FoodX, FoodY]
+        goal[0] = [FoodX, FoodY]
+        goal[1] = tail
+        goal[2] = center
+        safetynet[0] = tail
+        safetynet[1] = center
     else:
-        goal = tail
-    
+        goal[0] = tail
+        goal[1] = center
+        safetynet[0] = tail
+        safetynet[1] = center
+
     #####################FIND BEST GOAL###########################
     if turn < 3:
         GoalX = (width//2) - HeadX
@@ -269,63 +275,61 @@ def move():
         resp = StandardFind(GoalX, GoalY, walls, HeadX, HeadY)
         return move_response(resp)
     else:
-        #Check Left
-        Left = 0
-        if FindTail([HeadX - 1, HeadY], walls, checked, goal, count) == True:
-            if FindTail(goal, walls, checked, tail, count) == True:
-                Left = count[0]
-                if [HeadX - 1, HeadY] in danger:
-                    Left = Left + 100
-        #Reset
-        count[0] = 1
-        checked = []
-        #Check Right
-        Right = 0
-        if FindTail([HeadX + 1, HeadY], walls, checked, tail, count) == True:
-            if FindTail(tail, walls, checked, tail, count) == True:
-                Right = count[0]
-                if [HeadX + 1, HeadY] in danger:
-                    Right = Right + 100
-        #Reset
-        count[0] = 1
-        checked = []
-        #Check Up
-        Up = 0
-        if FindTail([HeadX, HeadY - 1], walls, checked, tail, count) == True:
-            if FindTail(tail, walls, checked, tail, count) == True:    
-                Up = count[0]
-                if [HeadX, HeadY - 1] in danger:
-                    Up = Up + 100
-        #Reset
-        count[0] = 1
-        checked = []
-        #Check Down
-        Down = 0
-        if FindTail([HeadX, HeadY + 1], walls, checked, tail, count) == True:
-            if FindTail(tail, walls, checked, tail, count) == True:
-                Down = count[0]
-                if [HeadX, HeadY + 1] in danger:
-                    Down = Down + 100
-        #Reset
-        count[0] = 1
-        checked = []
-        var = [Left, Right, Up, Down]
-        check = min(i for i in var if i > 0)
-        pos = var.index(check)
-        if check > 99:
-            GoalX = (width//2) - HeadX
-            GoalY = (height//2) - HeadY
-            resp = StandardFind(GoalX, GoalY, walls, HeadX, HeadY)
-            return move_response(resp)
-        else:    
-            if pos == 0:
-                return move_response('left')
-            if pos == 1:
-                return move_response('right')
-            if pos == 2:
-                return move_response('up')
-            if pos == 3:
-                return move_response('down') 
+        for i in goal:
+            for j in safetynet:
+                #Check Left
+                Left = 0
+                if FindTail([HeadX - 1, HeadY], walls, checked, goal[i], count) == True:
+                    if FindTail(goal[i], walls, checked, tail[j], count) == True:
+                        Left = count[0]
+                        if [HeadX - 1, HeadY] in danger:
+                            Left = Left + 100
+                #Reset
+                count[0] = 1
+                checked = []
+                #Check Right
+                Right = 0
+                if FindTail([HeadX + 1, HeadY], walls, checked, goal[i], count) == True:
+                    if FindTail(goal[i], walls, checked, tail[j], count) == True:
+                        Right = count[0]
+                        if [HeadX + 1, HeadY] in danger:
+                            Right = Right + 100
+                #Reset
+                count[0] = 1
+                checked = []
+                #Check Up
+                Up = 0
+                if FindTail([HeadX, HeadY - 1], walls, checked, goal[i], count) == True:
+                    if FindTail(goal[i], walls, checked, tail[j], count) == True:    
+                        Up = count[0]
+                        if [HeadX, HeadY - 1] in danger:
+                            Up = Up + 100
+                #Reset
+                count[0] = 1
+                checked = []
+                #Check Down
+                Down = 0
+                if FindTail([HeadX, HeadY + 1], walls, checked, goal[i], count) == True:
+                    if FindTail(goal[i], walls, checked, tail[j], count) == True:
+                        Down = count[0]
+                        if [HeadX, HeadY + 1] in danger:
+                            Down = Down + 100
+                #Reset
+                count[0] = 1
+                checked = []
+                var = [Left, Right, Up, Down]
+                check = min(i for i in var if i > 0)
+                if check == 0:
+                    continue 
+                pos = var.index(check)   
+                if pos == 0:
+                    return move_response('left')
+                if pos == 1:
+                    return move_response('right')
+                if pos == 2:
+                    return move_response('up')
+                if pos == 3:
+                    return move_response('down') 
 
 
     i = 1
