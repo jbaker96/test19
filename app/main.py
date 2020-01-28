@@ -255,18 +255,16 @@ def move():
         FoodX = FoodList[counter]['x']
         FoodY = FoodList[counter]['y']
 
-        #GoalX = FoodX - HeadX
-        #GoalY = FoodY - HeadY
-        goal[0] = [FoodX, FoodY]
-        goal[1] = tail
-        goal[2] = center
-        safetynet[0] = tail
-        safetynet[1] = center
+        goal.append([FoodX, FoodY])
+        goal.append(tail)
+        goal.append(center)
+        safetynet.append(tail)
+        safetynet.append(center)
     else:
-        goal[0] = tail
-        goal[1] = center
-        safetynet[0] = tail
-        safetynet[1] = center
+        goal.append(tail)
+        goal.append(center)
+        safetynet.append(tail)
+        safetynet.append(center)
 
     #####################FIND BEST GOAL###########################
     if turn < 3:
