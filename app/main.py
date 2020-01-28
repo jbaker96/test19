@@ -245,40 +245,44 @@ def move():
         GoalY = (height//2) - HeadY
         resp = StandardFind(GoalX, GoalY, walls, HeadX, HeadY)
         return move_response(resp)
-    elif health > 101 or not data['board']['food']:
+    elif health > 51 or not data['board']['food']:
         #Check Left
         Left = 0
         if FindTail([HeadX - 1, HeadY], walls, checked, tail, count) == True:
-            Left = count[0]
-            if [HeadX - 1, HeadY] in danger:
-                Left = Left + 100
+            if FindTail(tail, walls, checked, tail, count) == True:
+                Left = count[0]
+                if [HeadX - 1, HeadY] in danger:
+                    Left = Left + 100
         #Reset
         count[0] = 1
         checked = []
         #Check Right
         Right = 0
         if FindTail([HeadX + 1, HeadY], walls, checked, tail, count) == True:
-            Right = count[0]
-            if [HeadX + 1, HeadY] in danger:
-                Right = Right + 100
+            if FindTail(tail, walls, checked, tail, count) == True:
+                Right = count[0]
+                if [HeadX + 1, HeadY] in danger:
+                    Right = Right + 100
         #Reset
         count[0] = 1
         checked = []
         #Check Up
         Up = 0
         if FindTail([HeadX, HeadY - 1], walls, checked, tail, count) == True:
-            Up = count[0]
-            if [HeadX, HeadY - 1] in danger:
-                Up = Up + 100
+            if FindTail(tail, walls, checked, tail, count) == True:    
+                Up = count[0]
+                if [HeadX, HeadY - 1] in danger:
+                    Up = Up + 100
         #Reset
         count[0] = 1
         checked = []
         #Check Down
         Down = 0
         if FindTail([HeadX, HeadY + 1], walls, checked, tail, count) == True:
-            Down = count[0]
-            if [HeadX, HeadY + 1] in danger:
-                Down = Down + 100
+            if FindTail(tail, walls, checked, tail, count) == True:
+                Down = count[0]
+                if [HeadX, HeadY + 1] in danger:
+                    Down = Down + 100
         #Reset
         count[0] = 1
         checked = []
