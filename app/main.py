@@ -239,17 +239,40 @@ def move():
             a = [[snake['body'][0]['x'], snake['body'][0]['y'] - 1]]
             danger.extend(a)    
 
-    ####################FIND FOOD OR TAIL########################
+    ####################FIND ORDER GOALS########################
+    if health < 51:    
+        FoodList = data['board']['food']
+        j = 0
+        while (j < len(FoodList)):
+            b = abs(FoodList[j]['x'] - HeadX) + abs(FoodList[j]['y'] - HeadY)
+            if j == 0:
+                minval = b
+                counter = j
+            if b < minval:
+                counter = j
+                minval = b
+            j = j + 1
+
+        FoodX = FoodList[counter]['x']
+        FoodY = FoodList[counter]['y']
+
+        #GoalX = FoodX - HeadX
+        #GoalY = FoodY - HeadY
+        goal = [FoodX, FoodY]
+    else:
+        goal = tail
+    
+    #####################FIND BEST GOAL###########################
     if turn < 3:
         GoalX = (width//2) - HeadX
         GoalY = (height//2) - HeadY
         resp = StandardFind(GoalX, GoalY, walls, HeadX, HeadY)
         return move_response(resp)
-    elif health > 51 or not data['board']['food']:
+    else:
         #Check Left
         Left = 0
-        if FindTail([HeadX - 1, HeadY], walls, checked, tail, count) == True:
-            if FindTail(tail, walls, checked, tail, count) == True:
+        if FindTail([HeadX - 1, HeadY], walls, checked, goal, count) == True:
+            if FindTail(goal, walls, checked, tail, count) == True:
                 Left = count[0]
                 if [HeadX - 1, HeadY] in danger:
                     Left = Left + 100
@@ -302,78 +325,8 @@ def move():
             if pos == 2:
                 return move_response('up')
             if pos == 3:
-                return move_response('down')
+                return move_response('down') 
 
-    else:
-        FoodList = data['board']['food']
-        j = 0
-        while (j < len(FoodList)):
-            b = abs(FoodList[j]['x'] - HeadX) + abs(FoodList[j]['y'] - HeadY)
-            if j == 0:
-                minval = b
-                counter = j
-            if b < minval:
-                counter = j
-                minval = b
-            j = j + 1
-
-        FoodX = FoodList[counter]['x']
-        FoodY = FoodList[counter]['y']
-
-        #GoalX = FoodX - HeadX
-        #GoalY = FoodY - HeadY
-        goal = [FoodX, FoodY]
-        #Check Left
-        Left = 0
-        if FindTail([HeadX - 1, HeadY], walls, checked, goal, count) == True:
-            if FindTail(goal, walls, checked, tail, count) == True:
-                Left = count[0]
-                if [HeadX - 1, HeadY] in danger:
-                    Left = Left + 100
-        #Reset
-        count[0] = 1
-        checked = []
-        #Check Right
-        Right = 0
-        if FindTail([HeadX + 1, HeadY], walls, checked, goal, count) == True:
-            if FindTail(goal, walls, checked, tail, count) == True:
-                Right = count[0]
-                if [HeadX + 1, HeadY] in danger:
-                    Right = Right + 100
-        #Reset
-        count[0] = 1
-        checked = []
-        #Check Up
-        Up = 0
-        if FindTail([HeadX, HeadY - 1], walls, checked, goal, count) == True:
-            if FindTail(goal, walls, checked, tail, count) == True:
-                Up = count[0]
-                if [HeadX, HeadY - 1] in danger:
-                    Up = Up + 100
-        #Reset
-        count[0] = 1
-        checked = []
-        #Check Down
-        Down = 0
-        if FindTail([HeadX, HeadY + 1], walls, checked, goal, count) == True:
-            if FindTail(goal, walls, checked, tail, count) == True:
-                Down = count[0]
-                if [HeadX, HeadY + 1] in danger:
-                    Down = Down + 100
-        #Reset
-        count[0] = 1
-        checked = []
-        var = [Left, Right, Up, Down]
-        check = min(i for i in var if i > 0)
-        pos = var.index(check)
-        if pos == 0:
-            return move_response('left')
-        if pos == 1:
-            return move_response('right')
-        if pos == 2:
-            return move_response('up')
-        if pos == 3:
-            return move_response('down') 
 
     i = 1
     directions = [[0,-1],[0,1],[-1,0],[1,0]]
