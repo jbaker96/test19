@@ -318,10 +318,11 @@ def move():
                 count[0] = 1
                 checked = []
                 var = [Left, Right, Up, Down]
-                check = min(i for i in var if i > 0)
-                if check == 0:
-                    continue 
-                pos = var.index(check)   
+                check1 = max(var)
+                if check1 == 0:
+                    continue
+                check2 = min(i for i in var if i > 0)
+                pos = var.index(check2)   
                 if pos == 0:
                     return move_response('left')
                 if pos == 1:
