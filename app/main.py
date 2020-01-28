@@ -279,8 +279,8 @@ def move():
             for j in safetynet:
                 #Check Left
                 Left = 0
-                if FindTail([HeadX - 1, HeadY], walls, checked, goal[i], count) == True:
-                    if FindTail(goal[i], walls, checked, tail[j], count) == True:
+                if FindTail([HeadX - 1, HeadY], walls, checked, i, count) == True:
+                    if FindTail(i, walls, checked, j, count) == True:
                         Left = count[0]
                         if [HeadX - 1, HeadY] in danger:
                             Left = Left + 100
@@ -289,8 +289,8 @@ def move():
                 checked = []
                 #Check Right
                 Right = 0
-                if FindTail([HeadX + 1, HeadY], walls, checked, goal[i], count) == True:
-                    if FindTail(goal[i], walls, checked, tail[j], count) == True:
+                if FindTail([HeadX + 1, HeadY], walls, checked, i, count) == True:
+                    if FindTail(i, walls, checked, j, count) == True:
                         Right = count[0]
                         if [HeadX + 1, HeadY] in danger:
                             Right = Right + 100
@@ -299,8 +299,8 @@ def move():
                 checked = []
                 #Check Up
                 Up = 0
-                if FindTail([HeadX, HeadY - 1], walls, checked, goal[i], count) == True:
-                    if FindTail(goal[i], walls, checked, tail[j], count) == True:    
+                if FindTail([HeadX, HeadY - 1], walls, checked, i, count) == True:
+                    if FindTail(i, walls, checked, j, count) == True:    
                         Up = count[0]
                         if [HeadX, HeadY - 1] in danger:
                             Up = Up + 100
@@ -309,8 +309,8 @@ def move():
                 checked = []
                 #Check Down
                 Down = 0
-                if FindTail([HeadX, HeadY + 1], walls, checked, goal[i], count) == True:
-                    if FindTail(goal[i], walls, checked, tail[j], count) == True:
+                if FindTail([HeadX, HeadY + 1], walls, checked, i, count) == True:
+                    if FindTail(i, walls, checked, j, count) == True:
                         Down = count[0]
                         if [HeadX, HeadY + 1] in danger:
                             Down = Down + 100
