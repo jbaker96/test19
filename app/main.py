@@ -281,7 +281,10 @@ def move():
                     if FindTail(i, walls, checked, j, count) == True:
                         Left = count[0]
                         if [HeadX - 1, HeadY] in danger:
-                            Left = Left + 100
+                            if i > 0 or j > 0:
+                                Left = Left + 50
+                            else:
+                                Left = Left + 100
                 #Reset
                 count[0] = 1
                 checked = []
@@ -291,7 +294,10 @@ def move():
                     if FindTail(i, walls, checked, j, count) == True:
                         Right = count[0]
                         if [HeadX + 1, HeadY] in danger:
-                            Right = Right + 100
+                            if i > 0 or j > 0:
+                                Right = Right + 50
+                            else:
+                                Right = Right + 100
                 #Reset
                 count[0] = 1
                 checked = []
@@ -301,7 +307,10 @@ def move():
                     if FindTail(i, walls, checked, j, count) == True:    
                         Up = count[0]
                         if [HeadX, HeadY - 1] in danger:
-                            Up = Up + 100
+                            if i > 0 or j > 0:
+                                Up = Up + 50
+                            else:
+                                Up = Up + 100
                 #Reset
                 count[0] = 1
                 checked = []
@@ -311,7 +320,10 @@ def move():
                     if FindTail(i, walls, checked, j, count) == True:
                         Down = count[0]
                         if [HeadX, HeadY + 1] in danger:
-                            Down = Down + 100
+                            if i > 0 or j > 0:
+                                Down = Down + 50
+                            else:
+                                Down = Down + 100
                 #Reset
                 count[0] = 1
                 checked = []
