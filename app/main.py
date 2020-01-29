@@ -234,7 +234,7 @@ def move():
             a = [[snake['body'][0]['x'], snake['body'][0]['y'] + 1]]
             danger.extend(a)
             a = [[snake['body'][0]['x'], snake['body'][0]['y'] - 1]]
-            danger.extend(a)    
+            danger.extend(a)
 
     ####################ORDER GOALS & SAFETY NET##############################
     goal = []
@@ -317,7 +317,7 @@ def move():
                 checked = []
                 var = [Left, Right, Up, Down]
                 check1 = max(var)
-                if check1 == 0:
+                if check1 == 0 or check1 > 100:
                     continue
                 check2 = min(i for i in var if i > 0)
                 pos = var.index(check2)   
