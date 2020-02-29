@@ -1,34 +1,41 @@
 import json
 import os
 import random
+import numpy as np
+
 import bottle
+from bottle import HTTPResponse
 
-from api import ping_response, start_response, move_response, end_response
 
-@bottle.route('/')
+@bottle.route("/")
 def index():
-    return '''
-    Testing Shit out for real this time.
-    '''
+    return "Your Battlesnake is alive!"
 
-@bottle.route('/static/<path:path>')
-def static(path):
-    return bottle.static_file(path, root='static/')
 
-@bottle.post('/ping')
+@bottle.post("/ping")
 def ping():
-    return ping_response()
+    """
+    Used by the Battlesnake Engine to make sure your snake is still working.
+    """
+    return HTTPResponse(status=200)
 
-@bottle.post('/start')
+
+@bottle.post("/start")
 def start():
-    pydict = {
-        "color": "#FFC100",
-        "headType": "tongue",
-        "tailType": "curled"
-    }
-    jsonoutput = json.dumps(pydict)
-    return jsonoutput
-    
+    """
+    Called every time a new Battlesnake game starts and your snake is in it.
+    Your response will control how your snake is displayed on the board.
+    """
+    data = bottle.request.json
+    print("START:", json.dumps(data))
+
+    response = {"color": "#FFC100", "headType": "tongue", "tailType": "curled"}
+    return HTTPResponse(
+        status=200,
+        headers={"Content-Type": "application/json"},
+        body=json.dumps(response),
+    )
+
 def FindTail(a, walls, checked, tail, count):
     headU = [0, -1]
     headD = [0, 1]
@@ -155,11 +162,7 @@ def StandardFind(GoalX, GoalY, walls, HeadX, HeadY):
             elif [HeadX+1, HeadY] not in walls:
                 return 'right'
 
-@bottle.post('/move')
-def move():
-    data = bottle.request.json
-
-###################WALLS##############################
+def find_move(data):
     turn = data['turn']
     height = data['board']['height'] - 1 
     width = data['board']['width'] - 1 
@@ -271,7 +274,7 @@ def move():
         GoalX = (width//2) - HeadX
         GoalY = (height//2) - HeadY
         resp = StandardFind(GoalX, GoalY, walls, HeadX, HeadY)
-        return move_response(resp)
+        return (resp)
     else:
         for i in goal:
             for j in safetynet:
@@ -334,13 +337,13 @@ def move():
                 check2 = min(i for i in var if i > 0)
                 pos = var.index(check2)   
                 if pos == 0:
-                    return move_response('left')
+                    return ('left')
                 if pos == 1:
-                    return move_response('right')
+                    return ('right')
                 if pos == 2:
-                    return move_response('up')
+                    return ('up')
                 if pos == 3:
-                    return move_response('down') 
+                    return ('down') 
 
 
     i = 1
@@ -349,26 +352,65 @@ def move():
         direction = random.choice(directions)
         if [direction[0]+HeadX, direction[1]+HeadY] not in walls:
             if direction == [0,-1]:
-                return move_response('up')
+                return ('up')
             if direction == [0,1]:
-                return move_response('down')
+                return ('down')
             if direction == [-1,0]:
-                return move_response('left')
+                return ('left')
             if direction == [1,0]:
-                return move_response('right')
+                return ('right')
         i = i + 1
 
+@bottle.post("/move")
+def move():
+    """
+    Called when the Battlesnake Engine needs to know your next move.
+    The data parameter will contain information about the board.
+    Your response must include your move of up, down, left, or right.
+    """
+    data = bottle.request.json
+    print("MOVE:", json.dumps(data))
 
-@bottle.post('/end')
+    # Choose a random direction to move in
+    # directions = ["up", "down", "left", "right"]
+    move = find_move(data)
+
+    # Shouts are messages sent to all the other snakes in the game.
+    # Shouts are not displayed on the game board.
+    shout = "I am a python snake!"
+
+    response = {"move": move, "shout": shout}
+
+    print(response)
+
+    return HTTPResponse(
+        status=200,
+        headers={"Content-Type": "application/json"},
+        body=json.dumps(response),
+    )
+
+
+@bottle.post("/end")
 def end():
-    return end_response()
+    """
+    Called every time a game with your snake in it ends.
+    """
+    data = bottle.request.json
+    print("END:", json.dumps(data))
+    return HTTPResponse(status=200)
+
+
+def main():
+    bottle.run(
+        application,
+        host=os.getenv("IP", "0.0.0.0"),
+        port=os.getenv("PORT", "8080"),
+        debug=os.getenv("DEBUG", True),
+    )
+
 
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()
-if __name__ == '__main__':
-    bottle.run(
-        application,
-        host=os.getenv('IP', '0.0.0.0'),
-        port=os.getenv('PORT', '8080'),
-        debug=os.getenv('DEBUG', True)
-    )
+
+if __name__ == "__main__":
+    main()
