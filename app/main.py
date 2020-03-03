@@ -2,6 +2,7 @@ import json
 import os
 import random
 import numpy as np
+import csv
 
 import bottle
 from bottle import HTTPResponse
@@ -9,7 +10,7 @@ from bottle import HTTPResponse
 
 @bottle.route("/")
 def index():
-    return "Your Battlesnake is alive!"
+    return "We really in this shit"
 
 
 @bottle.post("/ping")
@@ -27,7 +28,7 @@ def start():
     Your response will control how your snake is displayed on the board.
     """
     data = bottle.request.json
-    print(("START:", json.dumps(data)))
+    #print(("START:", json.dumps(data)))
 
     response = {"color": "#FFC100", "headType": "tongue", "tailType": "curled"}
     return HTTPResponse(
@@ -42,12 +43,14 @@ def FindTail(a, walls, checked, tail, count):
     headL = [-1, 0]
     headR = [1, 0]
 
-    if a == tail:
-        return True
     if a in walls:
         return False
     if a in checked:
         return False
+    if a == tail:
+        if count[0] == 1 and bottle.request.json['you']['health'] == 100:
+            return False
+        return True
     count[0] = count[0] + 1
     checked.extend([a])
 
@@ -207,9 +210,10 @@ def find_move(data):
     for i in range(length - 1):
         a = [[me[i]['x'], me[i]['y']]]
         walls.extend(a)
-    if health == 100:
-        a = [tail]
-        walls.extend(a)
+    #if health == 100:
+    #    if tail == [HeadX + 1, HeadY] or tail == [HeadX - 1, HeadY] or tail == [HeadX, HeadY + 1] or tail == [HeadX, HeadY - 1]:
+    #        a = [tail]
+    #        walls.extend(a)
 
     ####################OTHERS######################
     others = data['board']['snakes']
@@ -265,9 +269,9 @@ def find_move(data):
         safetynet.append(center)
     else:
         goal.append(tail)
-        goal.append(center)
+        #goal.append(center)
         safetynet.append(tail)
-        safetynet.append(center)
+        #safetynet.append(center)
 
     #####################FIND BEST GOAL###########################
     if turn < 3:
@@ -361,6 +365,106 @@ def find_move(data):
                 return ('right')
         i = i + 1
 
+def board_heuristic(data):
+    matrix = []
+    height = data['board']['height'] - 1 
+    width = data['board']['width'] - 1
+    matrix = [[0.2 for x in range(width+1)] for y in range(height+1)]
+    board = np.array(matrix)
+
+    me = data['you']['body'] 
+    ID = data['you']['id'] 
+    health = data['you']['health'] 
+    length = len(me)
+    HeadX = me[0]['x']
+    HeadY = me[0]['y']
+    walls = []
+    TailX = me[length-1]['x']
+    TailY = me[length-1]['y']
+    tail = [TailX, TailY]
+    for i in range(length):
+        if i == 0:
+            board[me[i]['y'], me[i]['x']] = -1
+        elif i == length - 1 and health < 100:
+            board[me[i]['y'], me[i]['x']] = 1
+        else:
+            board[me[i]['y'], me[i]['x']] = 0
+    
+    print(board)
+    '''
+    ####################OTHERS######################
+    others = data['board']['snakes']
+    for i in range(len(others)):
+        if others[i]['id'] == ID:
+            continue
+        snake = others[i]
+        threat = len(snake['body'])
+        for j in range(len(snake['body'])):
+            if j == len(snake['body']):
+                a = [[snake['body'][j]['x'], snake['body'][j]['y']]]
+                enemytails.extend(a)
+                if snake['health'] != 100:
+                    walls.extend(a)    
+            else:    
+                a = [[snake['body'][j]['x'], snake['body'][j]['y']]]
+                walls.extend(a)
+                if j == 0:
+                    enemyheads.extend(a)
+        if threat >= length:
+            a = [[snake['body'][0]['x'] + 1, snake['body'][0]['y']]]
+            danger.extend(a)
+            a = [[snake['body'][0]['x'] - 1, snake['body'][0]['y']]]
+            danger.extend(a)
+            a = [[snake['body'][0]['x'], snake['body'][0]['y'] + 1]]
+            danger.extend(a)
+            a = [[snake['body'][0]['x'], snake['body'][0]['y'] - 1]]
+            danger.extend(a)
+
+    goal = []
+    safetynet = []
+    if health < 51:    
+        FoodList = data['board']['food']
+        j = 0
+        while (j < len(FoodList)):
+            b = abs(FoodList[j]['x'] - HeadX) + abs(FoodList[j]['y'] - HeadY)
+            if j == 0:
+                minval = b
+                counter = j
+            if b < minval:
+                counter = j
+                minval = b
+            j = j + 1
+
+        FoodX = FoodList[counter]['x']
+        FoodY = FoodList[counter]['y']
+
+        goal.append([FoodX, FoodY])
+        goal.append(tail)
+        goal.append(center)
+        safetynet.append(tail)
+        safetynet.append(center)
+    else:
+        goal.append(tail)
+        goal.append(center)
+        safetynet.append(tail)
+        safetynet.append(center)'''
+    #NeuralNetwork(board)
+
+'''
+def NeuralNetwork(inputs):
+    input_nodes = len(inputs)
+    hl1_nodes = 40
+    hl2_nodes = 12
+    output_nodes = 4
+    W1_shape = (hl1_nodes, input_nodes)
+    W2_shape = (hl2_nodes, hl1_nodes)
+    W3_shape = (output_nodes, hl2_nodes)
+
+    W1, W2, W3 = get_csv_weights()
+
+def get_csv_weights():
+'''
+
 @bottle.post("/move")
 def move():
     """
@@ -369,7 +473,7 @@ def move():
     Your response must include your move of up, down, left, or right.
     """
     data = bottle.request.json
-    print(("MOVE:", json.dumps(data)))
+    #print(("MOVE:", json.dumps(data)))
 
     # Choose a random direction to move in
     # directions = ["up", "down", "left", "right"]
@@ -377,11 +481,13 @@ def move():
 
     # Shouts are messages sent to all the other snakes in the game.
     # Shouts are not displayed on the game board.
-    shout = "I am a python snake!"
+    shout = ""
+
+    board_heuristic(data)
 
     response = {"move": move, "shout": shout}
 
-    print(response)
+    #print(response)
 
     return HTTPResponse(
         status=200,
@@ -396,7 +502,7 @@ def end():
     Called every time a game with your snake in it ends.
     """
     data = bottle.request.json
-    print(("END:", json.dumps(data)))
+    #print(("END:", json.dumps(data)))
     return HTTPResponse(status=200)
 
 
